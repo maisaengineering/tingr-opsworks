@@ -12,5 +12,5 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[site-cookbooks/opsworks-commons::default]
+      - recipe[opsworks-commons::default]
     attributes:

@@ -1,4 +1,4 @@
-# site-cookbooks/opsworks-commons cookbook
+# opsworks-commons cookbook
 
 # Requirements
 
@@ -10,4 +10,4 @@
 
 # Author
 
-Author:: YOUR_NAME (<YOUR_EMAIL>)
+Author:: Chandan Benjaram (labs@maisasolutions.com)

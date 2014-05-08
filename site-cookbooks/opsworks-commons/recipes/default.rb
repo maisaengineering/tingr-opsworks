@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: site-cookbooks/opsworks-commons
+# Cookbook Name:: opsworks-commons
 # Recipe:: default
 #
 # Copyright (C) 2014 Chandan Benjaram
