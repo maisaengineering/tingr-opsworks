@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: opsworks-commons
-# Recipe:: default
+# Recipe:: mongods
 #
 # Copyright (C) 2014 Chandan Benjaram
 #
