@@ -13,10 +13,10 @@
 include_recipe "mongodb::10gen_repo"
 include_recipe "mongodb::replicaset"
 
-node.set['mongodb']['cluster_name'] = 'CBTest'
-
+node.override['mongodb']['cluster_name'] = "CBTest 1"
+node.set['mongodb']['cluster_name'] = 'CBTest 2'
 
 mongodb_instance "mongodb" do
   config    "CBRepl Set"
-  cluster_name  "CBTest"
+  cluster_name  "CBTest 3"
 end
