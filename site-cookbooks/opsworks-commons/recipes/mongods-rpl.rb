@@ -19,4 +19,5 @@ node.set['mongodb']['cluster_name'] = 'CBTest 2'
 mongodb_instance "mongodb" do
   config    "CBRepl Set"
   cluster_name  "CBTest 3"
+  mongodb_cluster_name  "CBTest 3"
 end
