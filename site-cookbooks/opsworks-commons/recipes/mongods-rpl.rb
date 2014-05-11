@@ -14,6 +14,6 @@ include_recipe "mongodb::replicaset"
 
 
 mongodb_instance "mongodb" do
-  dbpath node['application']['cbdb_path']
+  # dbpath node['application']['cbdb_path']
   replSet   "CBRepl Set"
 end
