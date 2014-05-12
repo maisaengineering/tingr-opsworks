@@ -41,7 +41,7 @@ replicaset_layer_instances = node['opsworks']['layers'][replicaset_layer_slug_na
 Chef::Log.info('replicaset_layer_instances = #{replicaset_layer_instances}')
 
 
-OpsWorksHelper.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
+# OpsWorksHelper.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
 
 # node.set['mongodb'] = {
 #     "cluster_name" => "KLReplicaSet",
@@ -56,3 +56,7 @@ OpsWorksHelper.configure_replicaset(new_resource.replicaset, replicaset_name, re
 # node.set['mongodb']['config']['rest'] = "true"
 # node.set['mongodb']['config']['bind_ip'] = "0.0.0.0"
 # node.set['mongodb']['config']['replSet'] = "KLReplicaSet"
+
+
+#MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
+MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, rs_nodes) unless new_resource.replicaset.nil?
