@@ -1,8 +1,9 @@
 <% (['development', 'production'] + [@environment]).uniq.each do |env| -%>
 <%= env %>:
+  <<: *defaults
   sessions:
     default:
-      database: fortune_app_<%= env %>
+      database: app10691863
       hosts:
       <%  @replicaset_instances.each do |rs| -%>
         - <%= rs %>
@@ -13,4 +14,7 @@
         max_retries: 30
         retry_interval: 1
   options:
+    use_activesupport_time_zone: true
+    use_utc: false
+    raise_not_found_error: false
 <% end %>
