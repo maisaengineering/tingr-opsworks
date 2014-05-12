@@ -1,7 +1,7 @@
 defaults: &defaults
   pool_size: 35
   pool_timeout: 10.0
-  
+
 <% (['development', 'production'] + [@environment]).uniq.each do |env| -%>
 <%= env %>:
   <<: *defaults
@@ -21,4 +21,5 @@ defaults: &defaults
     use_activesupport_time_zone: true
     use_utc: false
     raise_not_found_error: false
+    consistency: :strong
 <% end %>
