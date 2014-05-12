@@ -24,7 +24,8 @@ include_recipe "mongodb::default"
 Chef::Log.info('MongoDB solo install went through')
 
 Chef::Log.info('Including helpers from MongoDB Cookbook...')
-::Chef::Recipe.send(:include, Chef::ResourceDefinitionList::MongoDB)
+# ::Chef::Recipe.send(:include, Chef::ResourceDefinitionList::MongoDB)
+Chef::Resource::User.send(:include, Chef::ResourceDefinitionList::MongoDB)
 
 Chef::Log.info('...helper included successfully')
 
