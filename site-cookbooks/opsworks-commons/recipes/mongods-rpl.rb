@@ -21,7 +21,16 @@ include_recipe "mongodb::replicaset"
 #     }
 # }
 
-node.set['mongodb']['cluster_name'] = "KLReplicaSet"
-node.set['mongodb']['config']['rest'] = "true"
-node.set['mongodb']['config']['bind_ip'] = "0.0.0.0"
-node.set['mongodb']['config']['replSet'] = "KLReplicaSet"
+# node.set['mongodb']['cluster_name'] = "KLReplicaSet"
+# node.set['mongodb']['config']['rest'] = "true"
+# node.set['mongodb']['config']['bind_ip'] = "0.0.0.0"
+# node.set['mongodb']['config']['replSet'] = "KLReplicaSet"
+
+node.override['mongodb'] = {
+    "cluster_name" => "KLReplicaSet",
+     "config" => {
+       "rest" => "true",
+       "bind_ip" => "0.0.0.0",
+       "replSet" => "KLReplicaSet"
+    }
+}
