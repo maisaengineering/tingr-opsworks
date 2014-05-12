@@ -2,6 +2,8 @@ require 'chef/node'
 
 class Chef::ResourceDefinitionList::OpsWorksHelper
 
+  include Chef::ResourceDefinitionList::MongoDB
+
   # true if we're on opsworks, false otherwise
   def self.opsworks?(node)
     node['opsworks'] != nil
@@ -36,6 +38,11 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
       end
     end
     members
+  end
+
+  # true if we're on opsworks, false otherwise
+  def self.configure_replicaset?(replicaset, replicaset_name, replicaset_layer_instances )
+    MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
   end
 
 end

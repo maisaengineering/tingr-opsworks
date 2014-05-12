@@ -9,6 +9,8 @@
 
 # node.set['mongodb']['cluster_name'] = 'CB Test cluster'
 
+Chef::Resource::User.send(:include, Chef::ResourceDefinitionList::OpsWorksHelper)
+
 node.override['mongodb'] = {
     "cluster_name" => "KLReplicaSet",
      "config" => {
@@ -25,7 +27,7 @@ Chef::Log.info('MongoDB solo install went through')
 
 Chef::Log.info('Including helpers from MongoDB Cookbook...')
 # ::Chef::Recipe.send(:include, Chef::ResourceDefinitionList::MongoDB)
-Chef::Resource::User.send(:include, Chef::ResourceDefinitionList::MongoDB)
+# Chef::Resource::User.send(:include, Chef::ResourceDefinitionList::MongoDB)
 
 Chef::Log.info('...helper included successfully')
 
@@ -39,7 +41,7 @@ replicaset_layer_instances = node['opsworks']['layers'][replicaset_layer_slug_na
 Chef::Log.info('replicaset_layer_instances = #{replicaset_layer_instances}')
 
 
-MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
+OpsWorksHelper.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
 
 # node.set['mongodb'] = {
 #     "cluster_name" => "KLReplicaSet",
