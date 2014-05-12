@@ -34,7 +34,7 @@ Chef::Log.info('...done')
 # assuming for the moment only one layer for the replicaset instances
 
 Chef::Log.info('reading replicaset_layer_slug_name...')
-is_ops_works = Chef::ResourceDefinitionList::OpsWorksHelper.opsworks?
+is_ops_works = Chef::ResourceDefinitionList::OpsWorksHelper.opsworks?(node)
 Chef::Log.info("is_ops_works => #{is_ops_works}")
 
 Chef::Log.info('reading replicaset_layer_slug_name...')
