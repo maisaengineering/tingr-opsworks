@@ -23,7 +23,7 @@ node[:deploy].each do |application, deploy|
 
   template "#{deploy[:deploy_to]}/shared/config/mongoid.yml" do
     source "mongoid.yml.erb"
-    cookbook 'rails_mongoid'
+    cookbook 'opsworks-rails-mongoid'
     mode "0660"
     group deploy[:group]
     owner deploy[:user]
