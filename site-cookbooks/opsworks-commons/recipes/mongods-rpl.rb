@@ -19,7 +19,26 @@ node.override['mongodb'] = {
 }
 
 include_recipe "mongodb::10gen_repo"
-include_recipe "mongodb::replicaset"
+include_recipe "mongodb::default"
+
+Chef::Log.info('MongoDB solo install went through')
+
+Chef::Log.info('Including helpers from MongoDB Cookbook...')
+::Chef::Recipe.send(:include, Chef::ResourceDefinitionList::MongoDB)
+
+Chef::Log.info('...helper included successfully')
+
+# assuming for the moment only one layer for the replicaset instances
+Chef::Log.info('reading replicaset_layer_slug_name...')
+replicaset_layer_slug_name = node['opsworks']['instance']['layers'].first
+Chef::Log.info('replicaset_layer_slug_name = #{replicaset_layer_slug_name}')
+
+Chef::Log.info('reading replicaset_layer_instances...')
+replicaset_layer_instances = node['opsworks']['layers'][replicaset_layer_slug_name]['instances']
+Chef::Log.info('replicaset_layer_instances = #{replicaset_layer_instances}')
+
+
+MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
 
 # node.set['mongodb'] = {
 #     "cluster_name" => "KLReplicaSet",
