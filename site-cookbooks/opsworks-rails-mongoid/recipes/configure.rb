@@ -34,7 +34,7 @@ node[:deploy].each do |application, deploy|
     )
     notifies :run, "execute[unicorn_restart]", :immediately
     only_if do
-      File.exists?("#{deploy[:deploy_to]}") && File.exists?("#{deploy[:deploy_to]}/shared/config/")
+      File.exists?("#{deploy[:deploy_to]}") && File.exists?("#{deploy[:deploy_to]}/config/config/")
     end
   end
 
@@ -58,6 +58,12 @@ node[:deploy].each do |application, deploy|
 
   execute "unicorn_restart" do
     command "#{deploy[:deploy_to]}/shared/scripts/unicorn restart"
+    action :nothing
+  end
+
+  execute "Restart Rails stack #{application}" do
+    cwd deploy[:current_path]
+    command node[:opsworks][:rails_stack][:restart_command]
     action :nothing
   end
 
