@@ -81,6 +81,7 @@ template "/etc/mongods_rpl.js" do
   group node['mongodb']['root_group']
   owner 'root'
   mode 0644
+  cookbook 'opsworks-commons'
   variables(
     :replSet => node['mongodb']['config'][:replSet],
     :replicaset_instances => replicaset_members

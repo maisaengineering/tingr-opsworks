@@ -26,19 +26,19 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
           # here we could support a map of instances to custom replicaset options in the custom json
           'port' => node['mongodb']['config']['port'],
           'replica_arbiter_only' => false,
-          'replica_build_indexes' => true,
+          # 'replica_build_indexes' => false,
           'replica_hidden' => false,
           'replica_slave_delay' => 0,
-          'replica_priority' => 1,
+          # 'replica_priority' => 1,
           'replica_tags' => {}, # to_hash is called on this
           'replica_votes' => 1,
           'config' => {
             'port' => node['mongodb']['config']['port'],
             'replica_arbiter_only' => false,
-            'replica_build_indexes' => true,
+            # 'replica_build_indexes' => true,
             'replica_hidden' => false,
             'replica_slave_delay' => 0,
-            'replica_priority' => 1,
+            # 'replica_priority' => 1,
             'replica_tags' => {}, # to_hash is called on this
             'replica_votes' => 1
           }
