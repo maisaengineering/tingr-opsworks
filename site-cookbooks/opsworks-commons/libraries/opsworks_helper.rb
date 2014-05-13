@@ -18,6 +18,8 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
     instances.each do |name, instance|
       if instance['status'] == 'online'
         member = Chef::Node.new
+        Chef::Log.debug("CB member name=#{name}")
+
         member.name(name)
         member.default['fqdn'] = instance['private_dns_name']
         member.default['ipaddress'] = instance['private_ip']
@@ -38,7 +40,7 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
             # 'replica_build_indexes' => true,
             'replica_hidden' => false,
             'replica_slave_delay' => 0,
-            # 'replica_priority' => 1,
+            'replica_priority' => 1,
             'replica_tags' => {}, # to_hash is called on this
             'replica_votes' => 1
           }

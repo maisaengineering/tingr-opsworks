@@ -72,6 +72,11 @@ replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members
 Chef::Log.info("replicaset_members[n]['mongodb']['config']['port']...")
 replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['mongodb']['config']['port']}" }
 
+for index in 0 ... replicaset_members.size
+  puts "replicaset_members[#{index}] = #{replicaset_members[index].inspect}"
+  Chef::Log.info("replicaset_members[#{index}] = #{replicaset_members[index].inspect}")
+end
+
 
 Chef::ResourceDefinitionList::MongoDB.configure_replicaset(node, replicaset_layer_slug_name, replicaset_members)
 
