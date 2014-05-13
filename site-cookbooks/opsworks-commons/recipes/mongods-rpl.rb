@@ -38,11 +38,11 @@ Chef::Log.info('reading replicaset_layer_instances...')
 replicaset_layer_instances = node['opsworks']['layers'][replicaset_layer_slug_name]['instances']
 Chef::Log.info("replicaset_layer_instances 1 = #{replicaset_layer_instances}")
 
-replicaset_members= OpsWorksHelper.replicaset_members(node, replicaset_layer_instances)
+replicaset_members= OpsWorksHelper.replicaset_members(node)
 Chef::Log.info("replicaset_members = #{replicaset_members}")
 
 
-Chef::ResourceDefinitionList::OpsWorksHelper.configure_replicaset(node, replicaset_layer_slug_name, replicaset_members)
+OpsWorksHelper.configure_replicaset(node, replicaset_layer_slug_name, replicaset_members)
 
 
 #MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
