@@ -32,9 +32,7 @@ node[:deploy].each do |application, deploy|
       :environment => deploy[:rails_env],
       :replicaset_instances => replicaset_instances
     )
-
-    # notifies :run, "execute[restart Rails app #{application}]", :immediately
-
+    notifies :run, "execute[unicorn_restart]", :immediately
     only_if do
       File.exists?("#{deploy[:deploy_to]}") && File.exists?("#{deploy[:deploy_to]}/shared/config/")
     end
@@ -52,11 +50,15 @@ node[:deploy].each do |application, deploy|
       :environment => deploy[:rails_env],
       :replicaset_instances => replicaset_instances
     )
-
-    notifies :restart, resources(:service => "unicorn_rails"), immediately
+    notifies :run, "execute[unicorn_restart]", :immediately
     only_if do
       File.exists?("#{deploy[:deploy_to]}") && File.exists?("#{deploy[:deploy_to]}/shared/config/")
     end
+  end
+
+  execute "unicorn_restart" do
+    command "#{deploy[:deploy_to]}/shared/scripts/unicorn restart"
+    not_if { ::File.exists?("/tmp/#{pet_name}")}
   end
 
 end
