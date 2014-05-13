@@ -72,15 +72,15 @@ Chef::ResourceDefinitionList::MongoDB.configure_replicaset(node, replicaset_laye
 Chef::Log.info('...done')
 # Chef::ResourceDefinitionList::MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, rs_nodes) unless new_resource.replicaset.nil?
 
-
-# just-in-case config file drop
-template node['mongodb']['dbconfig_file'] do
-  source node['mongodb']['dbconfig_file_template']
-  group node['mongodb']['root_group']
-  owner 'root'
-  mode 0644
-  variables(
-    :config => node['mongodb']['config']
-  )
-  action :create_if_missing
-end
+#
+# # just-in-case config file drop
+# template node['mongodb']['dbconfig_file'] do
+#   source node['mongodb']['dbconfig_file_template']
+#   group node['mongodb']['root_group']
+#   owner 'root'
+#   mode 0644
+#   variables(
+#     :config => node['mongodb']['config']
+#   )
+#   action :create_if_missing
+# end
