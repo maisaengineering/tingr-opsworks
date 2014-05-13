@@ -36,7 +36,7 @@ Chef::Log.info("replicaset_layer_slug_name = #{replicaset_layer_slug_name}")
 
 Chef::Log.info('reading replicaset_layer_instances...')
 replicaset_layer_instances = node['opsworks']['layers'][replicaset_layer_slug_name]['instances']
-Chef::Log.info("replicaset_layer_instances 1 = #{replicaset_layer_instances}")
+Chef::Log.info("replicaset_layer_instances 2 = #{replicaset_layer_instances}")
 
 replicaset_members= Chef::ResourceDefinitionList::OpsWorksHelper.replicaset_members(node)
 Chef::Log.info("replicaset_members = #{replicaset_members}")
@@ -49,6 +49,7 @@ Chef::Log.info("new_resource => #{new_resource}")
 Chef::Log.info("replicaset_name => #{replicaset_name}")
 Chef::Log.info("replicaset_layer_instances => #{replicaset_layer_instances}")
 
-Chef::ResourceDefinitionList::MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
+Chef::ResourceDefinitionList::MongoDB.configure_replicaset(node, replicaset_layer_slug_name, replicaset_members)
+
 Chef::Log.info('...done')
 # Chef::ResourceDefinitionList::MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, rs_nodes) unless new_resource.replicaset.nil?
