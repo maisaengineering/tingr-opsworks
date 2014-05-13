@@ -1,4 +1,4 @@
-defaults: &defaults
+<!-- defaults: &defaults
   pool_size: 35
   pool_timeout: 10.0
 
@@ -17,6 +17,43 @@ defaults: &defaults
         consistency: :eventual
         max_retries: 30
         retry_interval: 1
+  options:
+    use_activesupport_time_zone: true
+    use_utc: false
+    raise_not_found_error: false
+    consistency: :strong
+<% end %>
+ -->
+
+
+<% (['development', 'production'] + [@environment]).uniq.each do |env| -%>
+<%= env %>:
+  sessions:
+    # Define the default session.
+    default:
+      # A session can have any number of hosts. Usually 1 for a single
+      # server setup, and at least 3 for a replica set. Hosts must be
+      # an array of host:port pairs. This session is single server.
+      hosts:
+      <%  @replicaset_instances.each do |rs| -%>
+        - <%= rs %>
+      <% end -%>
+
+      # Define the default database name.
+      database: app10691863
+
+    # This defines a secondary session at a replica set.
+    replica_set:
+      # This configuration is a 3 node replica set.
+      hosts:
+      <%  @replicaset_instances.each do |rs| -%>
+        - <%= rs %>
+      <% end -%>
+      database: app10691863
+      options:
+        consistency: :eventual
+        safe: true
+
   options:
     use_activesupport_time_zone: true
     use_utc: false
