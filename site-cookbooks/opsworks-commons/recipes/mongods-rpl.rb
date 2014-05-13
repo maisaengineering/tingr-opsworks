@@ -27,6 +27,10 @@ node.override['mongodb'] = {
     "ruby_gems" => { :mongo => nil,:bson_ext => nil }
 }
 
+default['mongodb']['config']['replSet'] = "KLReplicaSet"
+node.override['mongodb']['replicaset_name'] = "KLReplicaSet"
+
+
 Chef::Log.info('MongoDB solo installing...')
 include_recipe "mongodb::10gen_repo"
 include_recipe "mongodb::default"
