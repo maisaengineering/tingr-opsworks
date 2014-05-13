@@ -61,8 +61,8 @@ replicaset_members.each_with_index { |item, n| puts "#{replicaset_members[n]}" }
 Chef::Log.info("replicaset_members[n]['fqdn']...")
 replicaset_members.each_with_index { |item, n| puts "#{replicaset_members[n]['fqdn']}" }
 
-Chef::Log.info("members[n]['mongodb']['config']['port']")
-replicaset_members.each_with_index { |item, n| puts "#{members[n]['mongodb']['config']['port']}" }
+Chef::Log.info("replicaset_members[n]['mongodb']['config']['port']")
+replicaset_members.each_with_index { |item, n| puts "#{replicaset_members[n]['mongodb']['config']['port']}" }
 
 
 
