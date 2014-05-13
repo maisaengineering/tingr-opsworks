@@ -30,15 +30,10 @@ node.override['mongodb'] = {
 # default['mongodb']['config']['replSet'] = "KLReplicaSet"
 node.override['mongodb']['replicaset_name'] = "KLReplicaSet"
 
-#['mongodb']['config']['replSet'] = setname
-
 Chef::Log.info('MongoDB solo installing...')
 include_recipe "mongodb::10gen_repo"
 include_recipe "mongodb::default"
 Chef::Log.info('...done')
-
-# ::Chef::Recipe.send(:include, Chef::ResourceDefinitionList::MongoDB)
-# Chef::Resource::User.send(:include, Chef::ResourceDefinitionList::MongoDB)
 
 
 Chef::Log.info('reading replicaset_layer_slug_name...')
@@ -107,19 +102,3 @@ execute "setup_mongods_rpl" do
   command "mongo #{mongods_rpl_filepath}"
   action :nothing
 end
-
-#
-# bash "setup replication using #{mongods_rpl_filepath}" do
-#    cwd "/etc"
-#    owner node[:mongodb][:user]
-#    group node[:mongodb][:group]
-#    code <<-EOH
-#      ./mongo
-#      EOH
-#    environment 'PREFIX' => "/usr/local"
-# end
-
-# execute "setup_mongods_rpl" do
-#   command "mongo #{mongods_rpl_filepath}"
-#   action :nothing
-# end
