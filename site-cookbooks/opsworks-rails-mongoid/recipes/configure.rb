@@ -11,7 +11,11 @@
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
-
+  execute "Restart Rails stack #{application}" do
+    cwd deploy[:current_path]
+    command node[:opsworks][:rails_stack][:restart_command]
+    action :nothing
+  end
 
   node.default[:deploy][application][:database][:adapter] = OpsWorks::RailsConfiguration.determine_database_adapter(application, node[:deploy][application], "#{node[:deploy][application][:deploy_to]}/current", :force => node[:force_database_adapter_detection])
   deploy = node[:deploy][application]
@@ -29,7 +33,7 @@ node[:deploy].each do |application, deploy|
       :replicaset_instances => replicaset_instances
     )
 
-    notifies :run, "execute[restart Rails app #{application}]", :immediately
+    # notifies :run, "execute[restart Rails app #{application}]", :immediately
 
     only_if do
       File.exists?("#{deploy[:deploy_to]}") && File.exists?("#{deploy[:deploy_to]}/shared/config/")
@@ -49,17 +53,10 @@ node[:deploy].each do |application, deploy|
       :replicaset_instances => replicaset_instances
     )
 
-    notifies :run, "execute[restart Rails app #{application}]", :immediately
+    notifies :restart, resources(:service => "unicorn_rails"), immediately
     only_if do
       File.exists?("#{deploy[:deploy_to]}") && File.exists?("#{deploy[:deploy_to]}/shared/config/")
     end
-  end
-
-
-  execute "Restart Rails stack #{application}" do
-    cwd deploy[:current_path]
-    command node[:opsworks][:rails_stack][:restart_command]
-    action :nothing
   end
 
 end
