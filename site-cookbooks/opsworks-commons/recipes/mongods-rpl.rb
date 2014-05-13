@@ -20,7 +20,9 @@ node.override['mongodb'] = {
        "rest" => "true",
        "bind_ip" => "0.0.0.0",
        "replSet" => "KLReplicaSet",
-       "port" => "27017"
+       "port" => "27017",
+       "replication.replSetName" => "KLReplicaSet",
+       "replication" => { "replSetName" => "KLReplicaSet"}
     },
     "ruby_gems" => { :mongo => nil,:bson_ext => nil }
 }
@@ -45,11 +47,6 @@ Chef::Log.info("replicaset_layer_instances 2 = #{replicaset_layer_instances}")
 replicaset_members= Chef::ResourceDefinitionList::OpsWorksHelper.replicaset_members(node)
 Chef::Log.info("replicaset_members = #{replicaset_members}")
 
-
-
-
-# Chef::ResourceDefinitionList::OpsWorksHelper.configure_replicaset(node, replicaset_layer_slug_name, replicaset_members)
-
 Chef::Log.info('calling mongodb helper...')
 Chef::Log.info("node => #{node}")
 Chef::Log.info("replicaset_layer_slug_name => #{replicaset_layer_slug_name}")
@@ -72,7 +69,6 @@ Chef::Log.info("replicaset_members[n]['mongodb']['config']['port']...")
 replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['mongodb']['config']['port']}" }
 
 
-
 Chef::ResourceDefinitionList::MongoDB.configure_replicaset(node, replicaset_layer_slug_name, replicaset_members)
 
 Chef::Log.info('...done')
@@ -80,12 +76,13 @@ Chef::Log.info('...done')
 
 
 # just-in-case config file drop
-template node['mongodb']['dbconfig_file'] do
+template "/etc/mongods_rpl.js" do
   source node['mongodb']['dbconfig_file_template']
   group node['mongodb']['root_group']
   owner 'root'
   mode 0644
   variables(
+    :replSet => node['mongodb']['config'][:replSet],
     :replicaset_instances => replicaset_members
   )
   action :create_if_missing
