@@ -12,11 +12,15 @@ defaults: &defaults
       <%  @replicaset_instances.each do |rs| -%>
         - <%= rs %>
       <% end -%>
+    replica_set:
+      database: app10691863
+      hosts:
+      <%  @replicaset_instances.each do |rs| -%>
+        - <%= rs %>
+      <% end -%>
       options:
-        safe: true
         consistency: :eventual
-        max_retries: 30
-        retry_interval: 1
+        safe: true
   options:
     identity_map_enabled: true
     include_root_in_json: true
