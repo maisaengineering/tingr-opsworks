@@ -28,9 +28,6 @@ node[:deploy].each do |application, deploy|
     group deploy[:group]
     owner deploy[:user]
 
-    #replicaset_name = node['mongodb']['replicaset_name']
-    #replicaset_instances = node['opsworks']['layers'][replicaset_name]['instances'].keys.map{|name| "#{name}:27017"}
-
     replicaset_instances = node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"].keys.map{|server| "#{node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"][server]["private_ip"]}:27017" }
     variables(
       :environment => deploy[:rails_env],
@@ -44,19 +41,18 @@ node[:deploy].each do |application, deploy|
     end
   end
 
-  #template "#{deploy[:deploy_to]}/shared/config/database.yml" do
-    #source "database.yml.erb"
-    #cookbook 'rails'
-    #mode "0660"
-    #group deploy[:group]
-    #owner deploy[:user]
-    #variables(:database => deploy[:database], :environment => deploy[:rails_env])
+template "#{deploy[:deploy_to]}/current/config/mongoid.yml" do
+  source "mongoid.yml.erb"
+  cookbook 'opsworks-rails-mongoid'
+  mode "0660"
+  group deploy[:group]
+  owner deploy[:user]
 
-    #notifies :run, "execute[restart Rails app #{application}]"
+  replicaset_instances = node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"].keys.map{|server| "#{node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"][server]["private_ip"]}:27017" }
+  variables(
+    :environment => deploy[:rails_env],
+    :replicaset_instances => replicaset_instances
+  )
 
-    #only_if do
-      #File.exists?("#{deploy[:deploy_to]}") && File.exists?("#{deploy[:deploy_to]}/shared/config/")
-    #end
-  #end
-
+  notifies :run, "execute[restart Rails app #{application}]"
 end
