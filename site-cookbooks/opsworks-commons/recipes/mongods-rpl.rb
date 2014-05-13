@@ -99,10 +99,26 @@ template mongods_rpl_filepath do
     :replicaset_instances => replicaset_members
   )
   action :create_if_missing
-  notifies :run, 'execute[setup_mongods_rpl]', :delayed
+  # notifies :run, 'execute[setup_mongods_rpl]', :immediately
 end
 
-execute "setup_mongods_rpl" do
-  command "mongo #{mongods_rpl_filepath}"
-  action :nothing
-end
+# execute "setup_mongods_rpl" do
+#   command "mongo #{mongods_rpl_filepath}"
+#   action :nothing
+# end
+
+#
+# bash "setup replication using #{mongods_rpl_filepath}" do
+#    cwd "/etc"
+#    owner node[:mongodb][:user]
+#    group node[:mongodb][:group]
+#    code <<-EOH
+#      ./mongo
+#      EOH
+#    environment 'PREFIX' => "/usr/local"
+# end
+
+# execute "setup_mongods_rpl" do
+#   command "mongo #{mongods_rpl_filepath}"
+#   action :nothing
+# end
