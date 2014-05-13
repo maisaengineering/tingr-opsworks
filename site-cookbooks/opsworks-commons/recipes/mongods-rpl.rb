@@ -77,13 +77,13 @@ Chef::Log.info('...done')
 
 # just-in-case config file drop
 template "/etc/mongods_rpl.js" do
-  source node['mongodb']['dbconfig_file_template']
+  source "mongods_rpl.js.erb"
   group node['mongodb']['root_group']
+  cookbook 'opsworks-commons'
   owner 'root'
   mode 0644
-  cookbook 'opsworks-commons'
   variables(
-    :replSet => node['mongodb']['config']['replSet'],
+    :replSet => "KLReplicaSet",
     :replicaset_instances => replicaset_members
   )
   action :create_if_missing
