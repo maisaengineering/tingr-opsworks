@@ -1,40 +1,42 @@
 defaults: &defaults
+  #use_activesupport_time_zone: true
+  #use_utc: false
   pool_size: 35
   pool_timeout: 10.0
 
-
-<% (['development', 'test', 'production'] + [@environment]).uniq.each do |env| -%>
-<%= env %>:
+development:
   <<: *defaults
   sessions:
-    # Define the default session.
     default:
-      # A session can have any number of hosts. Usually 1 for a single
-      # server setup, and at least 3 for a replica set. Hosts must be
-      # an array of host:port pairs. This session is single server.
-      hosts:
-      <%  @replicaset_instances.each do |rs| -%>
-        - <%= rs %>
-      <% end -%>
-
-      # Define the default database name.
       database: app10691863
-
-    # This defines a secondary session at a replica set.
-    replica_set:
-      # This configuration is a 3 node replica set.
       hosts:
-      <%  @replicaset_instances.each do |rs| -%>
-        - <%= rs %>
-      <% end -%>
-      database: app10691863
+        - ouranos:27017
       options:
-        consistency: :eventual
-        safe: true
+  # Configure Mongoid specific options. (optional)
+  options:
+    raise_not_found_error: false
+    use_activesupport_time_zone: true
+    use_utc: false
+test:
+  sessions:
+    default:
+      database: kidslink_test
+      hosts:
+        - localhost:27017
+      options:
+        read: primary
+        # In the test environment we lower the retries and retry interval to
+        # low amounts for fast failures.
+        max_retries: 1
+        retry_interval: 0
 
+production:
+  pool_size: 35
+  pool_timeout: 10.0
+  sessions:
+    default:
+      uri: <%= ENV['MONGOHQ_URL'] %>
   options:
     use_activesupport_time_zone: true
     use_utc: false
     raise_not_found_error: false
-    consistency: :strong
-<% end %>
