@@ -20,8 +20,8 @@ node.override['mongodb'] = {
        "rest" => "true",
        "bind_ip" => "0.0.0.0",
        "replSet" => "KLReplicaSet",
-       "port" => "27017",
-       "replication.replSetName" => "KLReplicaSet",
+       "port" => "27017"
+      #  "replication.replSetName" => "KLReplicaSet",
       #  "replication" => { "replSetName" => "KLReplicaSet"}
     },
     "ruby_gems" => { :mongo => nil,:bson_ext => nil }
