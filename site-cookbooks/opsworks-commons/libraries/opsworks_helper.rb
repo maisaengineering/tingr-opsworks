@@ -41,9 +41,9 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
   end
 
   # true if we're on opsworks, false otherwise
-  def self.configure_replicaset?(replicaset, replicaset_name, replicaset_layer_instances )
-    Chef::Log.debug("About to call MongoDB for rpl setup replicaset=#{replicaset}, replicaset_name=#{replicaset_name}, replicaset_layer_instances=#{replicaset_layer_instances}")
-    # MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
-  end
+  # def self.configure_replicaset?(replicaset, replicaset_name, replicaset_layer_instances )
+  #   Chef::Log.debug("About to call MongoDB for rpl setup replicaset=#{replicaset}, replicaset_name=#{replicaset_name}, replicaset_layer_instances=#{replicaset_layer_instances}")
+  #   # MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
+  # end
 
 end
