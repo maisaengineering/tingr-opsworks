@@ -18,7 +18,9 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
     instances.each do |name, instance|
       if instance['status'] == 'online'
         member = Chef::Node.new
-        Chef::Log.debug("CB member name=#{name}")
+        Chef::Log.info("CB member name BEFORE = #{name}")
+        name << ".localdomain"
+        Chef::Log.info("CB member name AFTER = #{name}")
 
         member.name(name)
         member.default['fqdn'] = instance['private_dns_name']
