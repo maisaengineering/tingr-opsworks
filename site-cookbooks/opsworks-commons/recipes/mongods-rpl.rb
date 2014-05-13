@@ -19,7 +19,8 @@ node.override['mongodb'] = {
      "config" => {
        "rest" => "true",
        "bind_ip" => "0.0.0.0",
-       "replSet" => "KLReplicaSet"
+       "replSet" => "KLReplicaSet",
+       "port" => "27017"
     },
     "ruby_gems" => { :mongo => nil,:bson_ext => nil }
 }
@@ -56,3 +57,28 @@ Chef::ResourceDefinitionList::MongoDB.configure_replicaset(node, replicaset_laye
 
 Chef::Log.info('...done')
 # Chef::ResourceDefinitionList::MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, rs_nodes) unless new_resource.replicaset.nil?
+
+# 
+#
+# template "#{deploy[:deploy_to]}/shared/config/mongoid.yml" do
+#   source "mongoid.yml.erb"
+#   cookbook 'opsworks-rails-mongoid'
+#   mode "0660"
+#   group deploy[:group]
+#   owner deploy[:user]
+#
+#   #replicaset_name = node['mongodb']['replicaset_name']
+#   #replicaset_instances = node['opsworks']['layers'][replicaset_name]['instances'].keys.map{|name| "#{name}:27017"}
+#
+#   replicaset_instances = node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"].keys.map{|server| "#{node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"][server]["private_ip"]}:27017" }
+#   variables(
+#     :environment => deploy[:rails_env],
+#     :replicaset_instances => replicaset_instances
+#   )
+#
+#   notifies :run, "execute[restart Rails app #{application}]"
+#
+#   only_if do
+#     File.exists?("#{deploy[:deploy_to]}") && File.exists?("#{deploy[:deploy_to]}/shared/config/")
+#   end
+# end
