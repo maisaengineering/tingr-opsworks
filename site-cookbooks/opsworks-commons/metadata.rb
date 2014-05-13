@@ -10,5 +10,6 @@ depends 'apt'
 depends 'build-essential'
 depends 'java'
 depends 'imagemagick'
+depends 'wkhtmltopdf'
 
 depends 'mongodb', "~> 0.16.0"
