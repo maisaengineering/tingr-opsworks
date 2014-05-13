@@ -45,9 +45,9 @@ Chef::Log.info("replicaset_members = #{replicaset_members}")
 # Chef::ResourceDefinitionList::OpsWorksHelper.configure_replicaset(node, replicaset_layer_slug_name, replicaset_members)
 
 Chef::Log.info('calling mongodb helper...')
-Chef::Log.info("new_resource => #{new_resource}")
-Chef::Log.info("replicaset_name => #{replicaset_name}")
-Chef::Log.info("replicaset_layer_instances => #{replicaset_layer_instances}")
+Chef::Log.info("node => #{node}")
+Chef::Log.info("replicaset_layer_slug_name => #{replicaset_layer_slug_name}")
+Chef::Log.info("replicaset_members => #{replicaset_members}")
 
 Chef::ResourceDefinitionList::MongoDB.configure_replicaset(node, replicaset_layer_slug_name, replicaset_members)
 
