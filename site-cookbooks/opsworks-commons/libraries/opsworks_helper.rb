@@ -19,13 +19,14 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
       if instance['status'] == 'online'
         member = Chef::Node.new
         Chef::Log.info("CB member name BEFORE = #{name}")
-        name << ".localdomain"
-        Chef::Log.info("CB member name AFTER = #{name}")
+        new_name = "#{name}.localdomain"
 
-        member.name(name)
+        Chef::Log.info("CB member name AFTER = #{new_name}")
+
+        member.name(new_name)
         member.default['fqdn'] = instance['private_dns_name']
         member.default['ipaddress'] = instance['private_ip']
-        member.default['hostname'] = name
+        member.default['hostname'] = new_name
         mongodb_attributes = {
           # here we could support a map of instances to custom replicaset options in the custom json
           'port' => node['mongodb']['config']['port'],
