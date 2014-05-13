@@ -7,12 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# node.set['mongodb']['cluster_name'] = 'CB Test cluster'
-
-# Chef::Resource::User.send(:include, Chef::ResourceDefinitionList::OpsWorksHelper)
 include_recipe 'mongodb::mongo_gem'
-
-# OpsWorks::InternalGems.internal_gem_package('rvm', :version => 'x.y.z')
+include_recipe 'opsworks-commons::ds-ebs-volutils'
 
 node.override['mongodb'] = {
     "cluster_name" => "KLReplicaSet",
@@ -21,8 +17,6 @@ node.override['mongodb'] = {
        "bind_ip" => "0.0.0.0",
        "replSet" => "KLReplicaSet",
        "port" => "27017"
-      #  "replication.replSetName" => "KLReplicaSet",
-      #  "replication" => { "replSetName" => "KLReplicaSet"}
     },
     "ruby_gems" => { :mongo => nil,:bson_ext => nil }
 }

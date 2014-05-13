@@ -13,3 +13,4 @@ depends 'imagemagick'
 depends 'wkhtmltopdf'
 
 depends 'mongodb', "~> 0.16.0"
+depends 'aws'
