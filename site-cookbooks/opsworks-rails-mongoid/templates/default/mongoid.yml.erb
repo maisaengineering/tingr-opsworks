@@ -1,33 +1,11 @@
-<!-- defaults: &defaults
+defaults: &defaults
   pool_size: 35
   pool_timeout: 10.0
 
-<% (['development', 'production'] + [@environment]).uniq.each do |env| -%>
+
+<% (['development', 'test', 'production'] + [@environment]).uniq.each do |env| -%>
 <%= env %>:
   <<: *defaults
-  sessions:
-    default:
-      database: app10691863
-      hosts:
-      <%  @replicaset_instances.each do |rs| -%>
-        - <%= rs %>
-      <% end -%>
-      options:
-        safe: true
-        consistency: :eventual
-        max_retries: 30
-        retry_interval: 1
-  options:
-    use_activesupport_time_zone: true
-    use_utc: false
-    raise_not_found_error: false
-    consistency: :strong
-<% end %>
- -->
-
-
-<% (['development', 'production'] + [@environment]).uniq.each do |env| -%>
-<%= env %>:
   sessions:
     # Define the default session.
     default:
