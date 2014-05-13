@@ -98,7 +98,7 @@ template mongods_rpl_filepath do
     :replSet => "KLReplicaSet",
     :replicaset_instances => replicaset_members
   )
-  action :create_if_missing
+  action :create
   # notifies :run, 'execute[setup_mongods_rpl]', :immediately
 end
 
