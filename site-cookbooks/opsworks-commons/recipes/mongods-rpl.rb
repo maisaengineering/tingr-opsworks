@@ -38,64 +38,82 @@ Chef::Log.info('...done')
 
 # ::Chef::Recipe.send(:include, Chef::ResourceDefinitionList::MongoDB)
 # Chef::Resource::User.send(:include, Chef::ResourceDefinitionList::MongoDB)
+#
+#
+# Chef::Log.info('reading replicaset_layer_slug_name...')
+# replicaset_layer_slug_name = node['opsworks']['instance']['layers'].first
+# Chef::Log.info("replicaset_layer_slug_name = #{replicaset_layer_slug_name}")
+#
+# Chef::Log.info('reading replicaset_layer_instances...')
+# replicaset_layer_instances = node['opsworks']['layers'][replicaset_layer_slug_name]['instances']
+# Chef::Log.info("replicaset_layer_instances 2 = #{replicaset_layer_instances}")
+#
+# replicaset_members= Chef::ResourceDefinitionList::OpsWorksHelper.replicaset_members(node)
+# Chef::Log.info("replicaset_members = #{replicaset_members}")
+#
+# Chef::Log.info('calling mongodb helper...')
+# Chef::Log.info("node => #{node}")
+# Chef::Log.info("replicaset_layer_slug_name => #{replicaset_layer_slug_name}")
+# Chef::Log.info("replicaset_members => #{replicaset_members}")
+#
+# Chef::Log.info("replicaset_members[n]...")
+# replicaset_members.each_with_index { |item, n| puts "#{replicaset_members[n]}" }
+#
+# Chef::Log.info("replicaset_members[n]['fqdn']...")
+# replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['fqdn']}" }
+#
+# Chef::Log.info("replicaset_members[n]['mongodb']...")
+# replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['mongodb']['config']['port']}" }
+#
+#
+# Chef::Log.info("replicaset_members[n]['mongodb']['config']...")
+# replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['mongodb']['config']}" }
+#
+# Chef::Log.info("replicaset_members[n]['mongodb']['config']['port']...")
+# replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['mongodb']['config']['port']}" }
+#
+# for index in 0 ... replicaset_members.size
+#   puts "replicaset_members[#{index}] = #{replicaset_members[index].inspect}"
+#   Chef::Log.info("replicaset_members[#{index}] = #{replicaset_members[index].inspect}")
+#   Chef::Log.info("replicaset_members[#{index}].name = #{replicaset_members[index].name}")
+# end
+#
+# Chef::Log.info("node.name = #{node.name}")
+#
+# Chef::ResourceDefinitionList::MongoDB.configure_replicaset(node, replicaset_layer_slug_name, replicaset_members)
+#
+# Chef::Log.info('...done')
+# # Chef::ResourceDefinitionList::MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, rs_nodes) unless new_resource.replicaset.nil?
 
 
-Chef::Log.info('reading replicaset_layer_slug_name...')
-replicaset_layer_slug_name = node['opsworks']['instance']['layers'].first
-Chef::Log.info("replicaset_layer_slug_name = #{replicaset_layer_slug_name}")
+mongods_rpl_filepath = "/etc/mongods_rpl.js"
 
-Chef::Log.info('reading replicaset_layer_instances...')
-replicaset_layer_instances = node['opsworks']['layers'][replicaset_layer_slug_name]['instances']
-Chef::Log.info("replicaset_layer_instances 2 = #{replicaset_layer_instances}")
-
-replicaset_members= Chef::ResourceDefinitionList::OpsWorksHelper.replicaset_members(node)
-Chef::Log.info("replicaset_members = #{replicaset_members}")
-
-Chef::Log.info('calling mongodb helper...')
-Chef::Log.info("node => #{node}")
-Chef::Log.info("replicaset_layer_slug_name => #{replicaset_layer_slug_name}")
-Chef::Log.info("replicaset_members => #{replicaset_members}")
-
-Chef::Log.info("replicaset_members[n]...")
-replicaset_members.each_with_index { |item, n| puts "#{replicaset_members[n]}" }
-
-Chef::Log.info("replicaset_members[n]['fqdn']...")
-replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['fqdn']}" }
-
-Chef::Log.info("replicaset_members[n]['mongodb']...")
-replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['mongodb']['config']['port']}" }
-
-
-Chef::Log.info("replicaset_members[n]['mongodb']['config']...")
-replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['mongodb']['config']}" }
-
-Chef::Log.info("replicaset_members[n]['mongodb']['config']['port']...")
-replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['mongodb']['config']['port']}" }
-
-for index in 0 ... replicaset_members.size
-  puts "replicaset_members[#{index}] = #{replicaset_members[index].inspect}"
-  Chef::Log.info("replicaset_members[#{index}] = #{replicaset_members[index].inspect}")
-  Chef::Log.info("replicaset_members[#{index}].name = #{replicaset_members[index].name}")
-end
-
-Chef::Log.info("node.name = #{node.name}")
-
-Chef::ResourceDefinitionList::MongoDB.configure_replicaset(node, replicaset_layer_slug_name, replicaset_members)
-
-Chef::Log.info('...done')
-# Chef::ResourceDefinitionList::MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, rs_nodes) unless new_resource.replicaset.nil?
-
-
-# just-in-case config file drop
-template "/etc/mongods_rpl.js" do
+template mongods_rpl_filepath do
   source "mongods_rpl.js.erb"
-  group node['mongodb']['root_group']
   cookbook 'opsworks-commons'
-  owner 'root'
+  owner node[:mongodb][:user]
+  group node[:mongodb][:group]
   mode 0644
   variables(
     :replSet => "KLReplicaSet",
     :replicaset_instances => replicaset_members
   )
   action :create_if_missing
+  notifies :run, 'execute[setup_mongods_rpl]', :delayed
+end
+
+#
+# bash "setup replication using #{mongods_rpl_filepath}" do
+#    cwd "/etc"
+#    owner node[:mongodb][:user]
+#    group node[:mongodb][:group]
+#    code <<-EOH
+#      ./mongo
+#      EOH
+#    environment 'PREFIX' => "/usr/local"
+# end
+
+execute "setup_mongods_rpl" do
+  command "mongo #{mongods_rpl_filepath}"
+  action :nothing
 end
