@@ -32,7 +32,7 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
           'replica_priority' => 1,
           'replica_tags' => {}, # to_hash is called on this
           'replica_votes' => 1,
-          'config' = {
+          'config' => {
             'port' => node['mongodb']['config']['port'],
             'replica_arbiter_only' => false,
             'replica_build_indexes' => true,
