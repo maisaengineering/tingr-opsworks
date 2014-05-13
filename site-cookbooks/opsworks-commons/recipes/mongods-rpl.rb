@@ -83,7 +83,7 @@ template "/etc/mongods_rpl.js" do
   mode 0644
   cookbook 'opsworks-commons'
   variables(
-    :replSet => node['mongodb']['config'][:replSet],
+    :replSet => node['mongodb']['config']['replSet'],
     :replicaset_instances => replicaset_members
   )
   action :create_if_missing
