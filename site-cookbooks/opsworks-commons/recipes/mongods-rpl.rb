@@ -10,6 +10,7 @@
 # node.set['mongodb']['cluster_name'] = 'CB Test cluster'
 
 # Chef::Resource::User.send(:include, Chef::ResourceDefinitionList::OpsWorksHelper)
+include_recipe 'mongodb::mongo_gem'
 
 node.override['mongodb'] = {
     "cluster_name" => "KLReplicaSet",
