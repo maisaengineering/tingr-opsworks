@@ -17,7 +17,7 @@ include_recipe 'mongodb::mongo_gem'
 node.override['mongodb'] = {
     "cluster_name" => "KLReplicaSet",
      "config" => {
-       "rest" => "true",
+       "rest" => "false",
        "bind_ip" => "0.0.0.0",
        "replSet" => "KLReplicaSet",
        "port" => "27017"
