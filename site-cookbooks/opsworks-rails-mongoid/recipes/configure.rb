@@ -41,18 +41,20 @@ node[:deploy].each do |application, deploy|
     end
   end
 
-template "#{deploy[:deploy_to]}/current/config/mongoid.yml" do
-  source "mongoid.yml.erb"
-  cookbook 'opsworks-rails-mongoid'
-  mode "0660"
-  group deploy[:group]
-  owner deploy[:user]
+  template "#{deploy[:deploy_to]}/current/config/mongoid.yml" do
+    source "mongoid.yml.erb"
+    cookbook 'opsworks-rails-mongoid'
+    mode "0660"
+    group deploy[:group]
+    owner deploy[:user]
 
-  replicaset_instances = node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"].keys.map{|server| "#{node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"][server]["private_ip"]}:27017" }
-  variables(
-    :environment => deploy[:rails_env],
-    :replicaset_instances => replicaset_instances
-  )
+    replicaset_instances = node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"].keys.map{|server| "#{node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"][server]["private_ip"]}:27017" }
+    variables(
+      :environment => deploy[:rails_env],
+      :replicaset_instances => replicaset_instances
+    )
 
-  notifies :run, "execute[restart Rails app #{application}]"
+    notifies :run, "execute[restart Rails app #{application}]"
+  end
+
 end
