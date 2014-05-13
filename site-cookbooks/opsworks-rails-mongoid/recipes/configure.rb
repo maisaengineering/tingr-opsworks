@@ -58,7 +58,7 @@ node[:deploy].each do |application, deploy|
 
   execute "unicorn_restart" do
     command "#{deploy[:deploy_to]}/shared/scripts/unicorn restart"
-    not_if { ::File.exists?("/tmp/#{pet_name}")}
+    action :nothing
   end
 
 end
