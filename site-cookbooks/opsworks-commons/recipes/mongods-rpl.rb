@@ -59,11 +59,17 @@ Chef::Log.info("replicaset_members[n]...")
 replicaset_members.each_with_index { |item, n| puts "#{replicaset_members[n]}" }
 
 Chef::Log.info("replicaset_members[n]['fqdn']...")
-replicaset_members.each_with_index { |item, n| puts "#{replicaset_members[n]['fqdn']}" }
+replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['fqdn']}" }
 
-Chef::Log.info("replicaset_members[n]['mongodb']['config']['port']")
-replicaset_members.each_with_index { |item, n| puts "#{replicaset_members[n]['mongodb']['config']['port']}" }
+Chef::Log.info("replicaset_members[n]['mongodb']...")
+replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['mongodb']['config']['port']}" }
 
+
+Chef::Log.info("replicaset_members[n]['mongodb']['config']...")
+replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['mongodb']['config']}" }
+
+Chef::Log.info("replicaset_members[n]['mongodb']['config']['port']...")
+replicaset_members.each_with_index { |item, n| puts "#{n}...#{replicaset_members[n]['mongodb']['config']['port']}" }
 
 
 
