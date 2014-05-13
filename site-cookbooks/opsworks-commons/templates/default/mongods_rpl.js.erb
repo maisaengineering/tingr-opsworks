@@ -1,10 +1,10 @@
 var config = {
      "_id" : "<%= @replSet %>",
-     members : [
+     "members" : [
      <% @replicaset_instances.each_with_index do |repl_member, index| -%>
        { "_id" : <%= index %>, "host" : "<%= repl_member['fqdn'] %>:27017" },
      <% end %>
      ]
 }
 
-rs.initiate( config );
+rs.initiate(config);
