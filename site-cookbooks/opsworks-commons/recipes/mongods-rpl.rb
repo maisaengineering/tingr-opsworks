@@ -12,6 +12,8 @@
 # Chef::Resource::User.send(:include, Chef::ResourceDefinitionList::OpsWorksHelper)
 include_recipe 'mongodb::mongo_gem'
 
+# OpsWorks::InternalGems.internal_gem_package('rvm', :version => 'x.y.z')
+
 node.override['mongodb'] = {
     "cluster_name" => "KLReplicaSet",
      "config" => {
@@ -19,7 +21,8 @@ node.override['mongodb'] = {
        "bind_ip" => "0.0.0.0",
        "replSet" => "KLReplicaSet",
        "replication.replSetName" => "KLReplicaSet"
-    }
+    },
+    "ruby_gems" => { :mongo => nil,:bson_ext => nil }
 }
 
 Chef::Log.info('MongoDB solo installing...')
