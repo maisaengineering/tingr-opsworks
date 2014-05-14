@@ -97,4 +97,3 @@ execute "setup_mongods_rpl" do
   action :nothing
 end
 Chef::Log.info("replicaset formed")
-include_recipe "mongodb::default"
