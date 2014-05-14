@@ -88,7 +88,7 @@ template mongods_rpl_filepath do
     :replicaset_instances => replicaset_members
   )
   action :create
-  # notifies :run, 'execute[setup_mongods_rpl]', :immediately
+  notifies :run, 'execute[setup_mongods_rpl]', :immediately
 end
 
 Chef::Log.info("setting up mongodb replicaset from #{mongods_rpl_filepath}")
