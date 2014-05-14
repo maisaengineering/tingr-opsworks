@@ -20,7 +20,7 @@ Chef::Log.info("CB aws = #{aws}")
 Chef::Log.info("CB aws[aws_access_key_id] = #{aws['aws_access_key_id']}")
 Chef::Log.info("CB aws[aws_secret_access_key] = #{aws['aws_secret_access_key']}")
 
-Chef::Log.info("CB node["opsworks-commons"]["ebs"]["raid"] = #{node["opsworks-commons"]["ebs"]["raid"]}")
+Chef::Log.info("CB node[opsworks-commons][ebs][raid] = #{node['opsworks-commons']['ebs']['raid']}")
 
 Chef::Log.info('CB including aws recipe...')
 
