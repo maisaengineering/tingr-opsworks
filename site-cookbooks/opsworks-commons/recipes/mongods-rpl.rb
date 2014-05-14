@@ -8,27 +8,6 @@
 #
 
 include_recipe 'mongodb::mongo_gem'
-node.override['mongodb'] = {
-    "cluster_name" => "KLReplicaSet",
-     "config" => {
-       "dbpath" => "/data/mongodb",
-       "logpath" => "/data/log/mongodb/mongodb.log",
-       "rest" => "false",
-       "bind_ip" => "0.0.0.0",
-       "replSet" => "KLReplicaSet",
-       "port" => "27017"
-    },
-    "ruby_gems" => { :mongo => nil,:bson_ext => nil }
-}
-
-# default['mongodb']['config']['replSet'] = "KLReplicaSet"
-node.override['mongodb']['replicaset_name'] = "KLReplicaSet"
-
-Chef::Log.info('MongoDB solo installing...')
-include_recipe "mongodb::10gen_repo"
-# include_recipe "mongodb::default"
-Chef::Log.info('...done')
-
 
 Chef::Log.info('reading replicaset_layer_slug_name...')
 replicaset_layer_slug_name = node['opsworks']['instance']['layers'].first
