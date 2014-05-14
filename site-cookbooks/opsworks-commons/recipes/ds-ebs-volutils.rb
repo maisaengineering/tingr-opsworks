@@ -55,8 +55,11 @@ else
   aws_ebs_volume 'data_volume' do
     aws_access_key aws['aws_access_key_id']
     aws_secret_access_key aws['aws_secret_access_key']
-    size node["opsworks-commons"]["ebs"]["size"]
     device device_id.gsub('xvd', 'sd') # aws uses sdx instead of xvdx
+    size 50
+    volume_type  "io1"
+    piops  1000
+    timeout  300 # in seconds
     action [ :create, :attach ]
   end
 
