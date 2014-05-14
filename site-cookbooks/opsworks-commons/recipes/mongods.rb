@@ -14,7 +14,6 @@ node.override['mongodb'] = {
        "logpath" => "/data/log/mongodb/mongodb.log",
        "rest" => "false",
        "bind_ip" => "0.0.0.0",
-      #  "replSet" => "KLReplicaSet",
        "port" => "27017"
     },
     "ruby_gems" => { :mongo => nil,:bson_ext => nil }

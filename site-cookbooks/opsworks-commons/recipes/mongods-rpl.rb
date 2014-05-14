@@ -86,9 +86,7 @@ template mongods_rpl_filepath do
   notifies :run, 'execute[setup_mongods_rpl]', :immediately
 end
 
-Chef::Log.info("setting up mongodb replicaset from #{mongods_rpl_filepath}")
 execute "setup_mongods_rpl" do
   command "mongo < #{mongods_rpl_filepath}"
-  action :run
+  action :nothing
 end
-Chef::Log.info("replicaset formed")
