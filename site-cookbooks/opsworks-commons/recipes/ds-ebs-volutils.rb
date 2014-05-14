@@ -48,9 +48,9 @@ else
 
   # save the device used for data_volume on this node -- this volume will now always
   # be attached to this device
-  node.set_unless["aws"]["ebs"_volume][:data_volume][:device] = "/dev/xvd#{devid}"
+  node.set_unless["aws"]["ebs_volume"]["data_volume"]["device"] = "/dev/xvd#{devid}"
 
-  device_id = node["aws"]["ebs"_volume][:data_volume][:device]
+  device_id = node["aws"]["ebs_volume"]["data_volume"]["device"]
 
   # create and attach the volume to the device determined above
   aws_ebs_volume 'data_volume' do
