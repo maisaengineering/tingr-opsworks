@@ -9,7 +9,7 @@
 
 include_recipe 'mongodb::mongo_gem'
 include_recipe 'opsworks-commons::ds-ebs-volutils'
-mongo_device="aws"]["ebs_volume"]["data_volume"]["device"]
+mongo_device=node["aws"]["ebs_volume"]["data_volume"]["device"]
 Chef::Log.info("mongodb data volume = #{mongo_device}")
 #
 # node.override['mongodb'] = {
