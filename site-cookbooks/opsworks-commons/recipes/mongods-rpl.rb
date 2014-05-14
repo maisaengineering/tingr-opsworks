@@ -26,7 +26,7 @@ node.override['mongodb']['replicaset_name'] = "KLReplicaSet"
 
 Chef::Log.info('MongoDB solo installing...')
 include_recipe "mongodb::10gen_repo"
-include_recipe "mongodb::default"
+# include_recipe "mongodb::default"
 Chef::Log.info('...done')
 
 
@@ -88,7 +88,7 @@ template mongods_rpl_filepath do
     :replicaset_instances => replicaset_members
   )
   action :create
-  notifies :run, 'execute[setup_mongods_rpl]', :immediately
+  # notifies :run, 'execute[setup_mongods_rpl]', :immediately
 end
 
 Chef::Log.info("setting up mongodb replicaset from #{mongods_rpl_filepath}")
