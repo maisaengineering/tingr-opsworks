@@ -12,3 +12,23 @@ default["opsworks-commons"]["ebs"] = {
   "raid" => false,
   "size" => 20 # size is in GB
 }
+
+
+### OPSWORKS CUSTOM JSON
+# {
+#    "opsworks":{
+#       "data_bags":{
+#          "aws":{
+#             "main":{
+#                "aws_access_key_id":"",
+#                "aws_secret_access_key":""
+#             }
+#          }
+#       }
+#    },
+#    "mongodb":{
+#       "mms_agent":{
+#          "api_key":""
+#       }
+#    }
+# }

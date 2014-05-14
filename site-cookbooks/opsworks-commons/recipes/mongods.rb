@@ -9,13 +9,3 @@
 
 include_recipe "mongodb::10gen_repo"
 include_recipe "mongodb::default"
-
-# # stack conf
-# {
-#   "mongodb" : {
-#     "config" : {
-#        "rest" : "true",
-#        "bind_ip" : "0.0.0.0"
-#     }
-#   }
-# }
