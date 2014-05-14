@@ -72,7 +72,7 @@ else
         end
       end
     end
-    action :action
+    action :nothing
   end
 
   mount_point = '/var/data'
