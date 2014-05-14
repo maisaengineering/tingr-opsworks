@@ -23,6 +23,7 @@ node.override['mongodb'] = {
 
 include_recipe "mongodb::10gen_repo"
 include_recipe "mongodb::default"
+include_recipe "mongodb::mms-agent"
 
 Chef::Log.info('reading replicaset_layer_slug_name...')
 replicaset_layer_slug_name = node['opsworks']['instance']['layers'].first
@@ -91,5 +92,3 @@ execute "setup_mongods_rpl" do
   action :run
 end
 Chef::Log.info("replicaset formed")
-
-include_recipe 'mongodb::mms-agent'
