@@ -8,6 +8,21 @@
 #
 
 include_recipe 'mongodb::mongo_gem'
+node.override['mongodb'] = {
+    "cluster_name" => "KLReplicaSet",
+     "config" => {
+       "dbpath" => "/data/mongodb",
+       "logpath" => "/data/log/mongodb/mongodb.log",
+       "rest" => "false",
+       "bind_ip" => "0.0.0.0",
+       "replSet" => "KLReplicaSet",
+       "port" => "27017"
+    },
+    "ruby_gems" => { :mongo => nil,:bson_ext => nil }
+}
+
+include_recipe "mongodb::10gen_repo"
+include_recipe "mongodb::default"
 
 Chef::Log.info('reading replicaset_layer_slug_name...')
 replicaset_layer_slug_name = node['opsworks']['instance']['layers'].first
@@ -72,7 +87,7 @@ end
 
 Chef::Log.info("setting up mongodb replicaset from #{mongods_rpl_filepath}")
 execute "setup_mongods_rpl" do
-  command "mongo #{mongods_rpl_filepath}"
+  command "mongo < #{mongods_rpl_filepath}"
   action :run
 end
 Chef::Log.info("replicaset formed")
