@@ -7,8 +7,8 @@
 #     }
 # }
 
-default[:opsworks-commons][:ec2] = false
-default[:opsworks-commons][:ebs] = {
-  :raid => false,
-  :size => 20 # size is in GB
+default["opsworks-commons"]["ec2"] = false
+default["opsworks-commons"]["ebs"] = {
+  "raid" => false,
+  "size" => 20 # size is in GB
 }
