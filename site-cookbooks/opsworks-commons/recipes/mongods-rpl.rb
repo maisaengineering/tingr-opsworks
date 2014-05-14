@@ -73,6 +73,6 @@ end
 Chef::Log.info("setting up mongodb replicaset from #{mongods_rpl_filepath}")
 execute "setup_mongods_rpl" do
   command "mongo #{mongods_rpl_filepath}"
-  action :nothing
+  action :run
 end
 Chef::Log.info("replicaset formed")
