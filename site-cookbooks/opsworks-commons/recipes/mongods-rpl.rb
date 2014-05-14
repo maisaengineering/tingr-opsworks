@@ -91,3 +91,5 @@ execute "setup_mongods_rpl" do
   action :run
 end
 Chef::Log.info("replicaset formed")
+
+include_recipe 'mongodb::mms-agent'
