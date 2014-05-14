@@ -8,11 +8,11 @@
 #
 
 include_recipe 'mongodb::mongo_gem'
-include_recipe 'opsworks-commons::ds-ebs-volutils'
-
 node.override['mongodb'] = {
     "cluster_name" => "KLReplicaSet",
      "config" => {
+       "dbpath" => "/data/mongodb",
+       "logpath" => "/data/log/mongodb/mongodb.log",
        "rest" => "false",
        "bind_ip" => "0.0.0.0",
        "replSet" => "KLReplicaSet",
@@ -97,3 +97,4 @@ execute "setup_mongods_rpl" do
   action :nothing
 end
 Chef::Log.info("replicaset formed")
+include_recipe "mongodb::default"
