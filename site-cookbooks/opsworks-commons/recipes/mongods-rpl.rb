@@ -11,6 +11,8 @@ include_recipe 'mongodb::mongo_gem'
 node.override['mongodb'] = {
     "cluster_name" => "KLReplicaSet",
      "config" => {
+       "dbpath" => "/data/mongodb",
+       "logpath" => "/data/log/mongodb/mongodb.log",
        "rest" => "false",
        "bind_ip" => "0.0.0.0",
        "replSet" => "KLReplicaSet",
