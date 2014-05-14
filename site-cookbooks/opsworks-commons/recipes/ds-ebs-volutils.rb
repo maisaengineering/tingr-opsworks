@@ -19,7 +19,7 @@ Chef::Log.info("CB node[opsworks-commons][ebs][size] = #{node["opsworks-commons"
 
 include_recipe 'aws'
 
-directory '/data' do
+directory '/var/data' do
   mode '0755'
   action :create
 end
@@ -30,7 +30,7 @@ if node["opsworks-commons"]["ebs"]["raid"]
   # use the aws_ebs_raid provider to create and mount a RAID volume. This provider
   # basically does everything for us, so there's nothing more to do!
   aws_ebs_raid 'data_volume_raid' do
-    mount_point '/data'
+    mount_point '/var/data'
     disk_count 2
     disk_size node["opsworks-commons"]["ebs"]["size"]
     level 10
@@ -62,17 +62,20 @@ else
 
   # wait for the drive to attach, before making a filesystem
   ruby_block "sleeping_data_volume" do
-    loop do
-      if File.blockdev?(device_id)
-        break
-      else
-        Chef::Log.info("device #{device_id} not ready - sleeping 10s")
-        sleep 10
+    block do
+      loop do
+        if File.blockdev?(device_id)
+          break
+        else
+          Chef::Log.info("device #{device_id} not ready - sleeping 10s")
+          sleep 10
+        end
       end
     end
+    action :action
   end
 
-  mount_point = '/data'
+  mount_point = '/var/data'
 
   # create a filesystem
   execute 'mkfs' do
