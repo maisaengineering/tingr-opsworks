@@ -8,11 +8,11 @@
 #
 
 include_recipe 'mongodb::mongo_gem'
+include_recipe 'opsworks-commons::ds-ebs-volutils'
+
 node.override['mongodb'] = {
     "cluster_name" => "KLReplicaSet",
      "config" => {
-       "dbpath" => "/data/mongodb",
-       "logpath" => "/data/log/mongodb/mongodb.log",
        "rest" => "false",
        "bind_ip" => "0.0.0.0",
        "replSet" => "KLReplicaSet",
@@ -75,7 +75,6 @@ Chef::Log.info("node.name = #{node.name}")
 # Chef::Log.info('...done')
 # Chef::ResourceDefinitionList::MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, rs_nodes) unless new_resource.replicaset.nil?
 
-
 mongods_rpl_filepath = "/etc/mongods_rpl.js"
 
 template mongods_rpl_filepath do
@@ -92,7 +91,9 @@ template mongods_rpl_filepath do
   notifies :run, 'execute[setup_mongods_rpl]', :immediately
 end
 
+Chef::Log.info("setting up mongodb replicaset from #{mongods_rpl_filepath}")
 execute "setup_mongods_rpl" do
   command "mongo #{mongods_rpl_filepath}"
   action :nothing
 end
+Chef::Log.info("replicaset formed")
