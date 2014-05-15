@@ -8,8 +8,6 @@
 #
 
 # include_recipe 'mongodb::mongo_gem'
-
-node.override['mongodb']['config']['replSet'] = "KLReplicaSet"
 #
 # node.override['mongodb'] = {
 #      "config" => {
@@ -22,7 +20,11 @@ node.override['mongodb']['config']['replSet'] = "KLReplicaSet"
 #     "ruby_gems" => { :mongo => nil,:bson_ext => nil }
 # }
 
-include_recipe "mongodb::10gen_repo"
+node.override['mongodb']['config']['replSet'] = "KLReplicaSet"
+node.override['mongodb']['config']['dbpath'] = "/data/mongodb"
+node.override['mongodb']['config']['logpath'] = "/data/log/mongodb/mongodb.log"
+
+include_recipe "mongodb::mongodb_org_repo"
 include_recipe "mongodb::default"
 
 replicaset_members= Chef::ResourceDefinitionList::OpsWorksHelper.replicaset_members(node)

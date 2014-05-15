@@ -10,5 +10,5 @@
 node.override['mongodb']['config']['dbpath'] = "/data/mongodb"
 node.override['mongodb']['config']['logpath'] = "/data/log/mongodb/mongodb.log"
 
-include_recipe "mongodb::10gen_repo"
+include_recipe "mongodb::mongodb_org_repo"
 include_recipe "mongodb::default"
