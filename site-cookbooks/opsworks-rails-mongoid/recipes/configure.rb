@@ -19,14 +19,14 @@ node[:deploy].each do |application, deploy|
   Chef::Log.info('setting set-env-aws-key...')
   ruby_block "set-env-aws-key" do
     block do
-      ENV["AWS_KEY"] = java_home
+      ENV["AWS_KEY"] = aws['aws_access_key_id']
     end
   end
 
   Chef::Log.info('setting set-env-aws-secret...')
   ruby_block "set-env-aws-secret" do
     block do
-      ENV["AWS_SECRET"] = java_home
+      ENV["AWS_SECRET"] = aws['aws_secret_access_key']
     end
   end
 
