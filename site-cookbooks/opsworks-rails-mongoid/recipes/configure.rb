@@ -12,53 +12,53 @@
 
 
 node[:deploy].each do |application, deploy|
-  Chef::Log.info('CB reading aws databag...')
+  # Chef::Log.info('CB reading aws databag...')
   # get AWS credentials from the aws data_bag
-  aws = data_bag_item('aws', 'main')
-
-  Chef::Log.info('setting set-env-aws-key...')
-  ruby_block "set-env-aws-key" do
-    block do
-      ENV["AWS_KEY"] = "#{aws['aws_access_key_id']}"
-    end
-  end
-
-  Chef::Log.info('setting set-env-aws-secret...')
-  ruby_block "set-env-aws-secret" do
-    block do
-      ENV["AWS_SECRET"] = "#{aws['aws_secret_access_key']}"
-    end
-  end
+  # aws = data_bag_item('aws', 'main')
+  #
+  # Chef::Log.info('setting set-env-aws-key...')
+  # ruby_block "set-env-aws-key" do
+  #   block do
+  #     ENV["AWS_KEY"] = "#{aws['aws_access_key_id']}"
+  #   end
+  # end
+  #
+  # Chef::Log.info('setting set-env-aws-secret...')
+  # ruby_block "set-env-aws-secret" do
+  #   block do
+  #     ENV["AWS_SECRET"] = "#{aws['aws_secret_access_key']}"
+  #   end
+  # end
 
   deploy = node[:deploy][application]
 
-  ruby_block "Carrierwave conf replace AWS KEY" do
-    block do
-      carrierwave_cfg = Chef::Util::FileEdit.new("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
-      puts "BEFORE content..."
-      puts carrierwave_cfg.inspect
-      puts "...end"
-      carrierwave_cfg.search_file_replace(/ENV\[\'AWS_KEY\'\]/i, aws['aws_access_key_id'])
-      puts "AFTER content..."
-      puts carrierwave_cfg.inspect
-      puts "...end"
-    end
-    notifies :run, "execute[unicorn_restart]"
-    only_if do
-      ::File.read("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb").include?("ENV['AWS_KEY']")
-    end
-  end
-
-  ruby_block "Carrierwave conf replace AWS_SECRET" do
-    block do
-      carrierwave_cfg = Chef::Util::FileEdit.new("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
-      carrierwave_cfg.search_file_replace(/ENV\[\'AWS_SECRET\'\]/i, aws['aws_secret_access_key'])
-    end
-    notifies :run, "execute[unicorn_restart]"
-    only_if do
-      ::File.read("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb").include?("ENV['AWS_SECRET']")
-    end
-  end
+  # ruby_block "Carrierwave conf replace AWS KEY" do
+  #   block do
+  #     carrierwave_cfg = Chef::Util::FileEdit.new("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
+  #     puts "BEFORE content..."
+  #     puts carrierwave_cfg.inspect
+  #     puts "...end"
+  #     carrierwave_cfg.search_file_replace(/ENV\[\'AWS_KEY\'\]/i, aws['aws_access_key_id'])
+  #     puts "AFTER content..."
+  #     puts carrierwave_cfg.inspect
+  #     puts "...end"
+  #   end
+  #   notifies :run, "execute[unicorn_restart]"
+  #   only_if do
+  #     ::File.read("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb").include?("ENV['AWS_KEY']")
+  #   end
+  # end
+  #
+  # ruby_block "Carrierwave conf replace AWS_SECRET" do
+  #   block do
+  #     carrierwave_cfg = Chef::Util::FileEdit.new("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
+  #     carrierwave_cfg.search_file_replace(/ENV\[\'AWS_SECRET\'\]/i, aws['aws_secret_access_key'])
+  #   end
+  #   notifies :run, "execute[unicorn_restart]"
+  #   only_if do
+  #     ::File.read("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb").include?("ENV['AWS_SECRET']")
+  #   end
+  # end
 
   # execute "Restart Rails stack #{application}" do
   #   cwd deploy[:current_path]
