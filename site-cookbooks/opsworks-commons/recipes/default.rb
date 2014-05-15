@@ -12,5 +12,3 @@ include_recipe 'java'
 
 include_recipe "imagemagick"
 include_recipe "wkhtmltopdf"
-
-aws = data_bag_item('aws', 'main')

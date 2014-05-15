@@ -10,6 +10,9 @@
 include_recipe "imagemagick"
 include_recipe "wkhtmltopdf"
 
+Chef::Log.info('Setting ENV vars from databag items')
+
+aws = data_bag_item('aws', 'main')
 Chef::Log.info('Setting AWS_KEY ENV var')
 ruby_block "set-env-aws-key" do
   block do
