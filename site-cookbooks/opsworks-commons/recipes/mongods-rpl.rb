@@ -30,7 +30,7 @@ include_recipe "mongodb::default"
 replicaset_members= Chef::ResourceDefinitionList::OpsWorksHelper.replicaset_members(node)
 replicaset_members.each_with_index { |item, n| Chef::Log.info("#{n}...#{item[n].inspect}") }
 
-old_replset_id=`mongo --eval "printjson(rs.status())" | grep "set" | cut -d'"' -f4`
+old_replset_id=`mongo --eval "printjson(rs.status())" | egrep -i '^\s+"set"' | cut -d'"' -f4`
 Chef::Log.info("old_replset_id=#{old_replset_id}")
 
 new_replset_id=node['mongodb']['config']['replSet']
