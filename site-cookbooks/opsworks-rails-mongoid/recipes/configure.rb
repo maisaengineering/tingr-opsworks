@@ -55,6 +55,21 @@ node[:deploy].each do |application, deploy|
     end
   end
 
+  Chef::Log.info('dump AWS_KEY & AWS_SECRET keys...')
+  ruby_block "dump ENV vars" do
+    block do
+      Chef::Log.info("dumping AWS_KEY...")
+      puts ENV['AWS_KEY']
+      puts ENV["AWS_KEY"]
+      Chef::Log.info("AWS_KEY...#{ENV['AWS_KEY']}")
+
+      Chef::Log.info("dumping AWS_SECRET...")
+      puts ENV['AWS_SECRET']
+      puts ENV["AWS_SECRET"]
+      Chef::Log.info("AWS_SECRET...#{ENV['AWS_SECRET']}")
+    end
+  end
+
 
   deploy = node[:deploy][application]
 
