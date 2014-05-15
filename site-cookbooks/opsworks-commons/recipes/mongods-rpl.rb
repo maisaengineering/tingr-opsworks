@@ -72,12 +72,13 @@ Chef::Log.info("node.name = #{node.name}")
 mongods_rpl_filepath = "/etc/mongods_rpl.js"
 
 Chef::Log.info("finding old replca set id...")
-old_replset_id=`mongo --eval "printjson(rs.status())" | grep "set" | cut -d"\"" -f4`
+#old_replset_id=`mongo --eval "printjson(rs.status())" | grep "set" | cut -d"\"" -f4`
+old_replset_id=`mongo --eval "printjson(rs.status())" | grep "set" | cut -d'"' -f4`
 Chef::Log.info("old_replset_id=#{old_replset_id}")
 
 Chef::Log.info("finding new replca set id...")
 new_replset_id=node['mongodb']['config']['replSet']
-Chef::Log.info("old_replset_id=#{new_replset_id}")
+Chef::Log.info("new_replset_id=#{new_replset_id}")
 
 Chef::Log.info("calling to create template")
 template mongods_rpl_filepath do
@@ -94,7 +95,7 @@ template mongods_rpl_filepath do
   action :create
 end
 
-Chef::Log.info("calling to create template")
+Chef::Log.info("calling to create replica set")
 
 execute "setup_mongods_rpl" do
   command "mongo < #{mongods_rpl_filepath}"
