@@ -15,29 +15,29 @@ node[:deploy].each do |application, deploy|
   aws = data_bag_item('aws', 'main')
   deploy = node[:deploy][application]
 
-  ruby_block "Carrierwave conf replace AWS_KEY" do
-    block do
-      cfg = Chef::Util::FileEdit.new("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
-      cfg.search_file_replace(/ENV\[\'AWS_KEY\'\]/i, "#{aws['aws_access_key_id']}")
-      cfg.write_file
-    end
-    notifies :run, "execute[unicorn_restart]"
-    only_if do
-      ::File.read("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb").include?("ENV['AWS_KEY']")
-    end
-  end
-
-  ruby_block "Carrierwave conf replace AWS_SECRET" do
-    block do
-      cfg = Chef::Util::FileEdit.new("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
-      cfg.search_file_replace(/ENV\[\'AWS_SECRET\'\]/i, "#{aws['aws_secret_access_key']}")
-      cfg.write_file
-    end
-    notifies :run, "execute[unicorn_restart]"
-    only_if do
-      ::File.read("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb").include?("ENV['AWS_SECRET']")
-    end
-  end
+  # ruby_block "Carrierwave conf replace AWS_KEY" do
+  #   block do
+  #     cfg = Chef::Util::FileEdit.new("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
+  #     cfg.search_file_replace(/ENV\[\'AWS_KEY\'\]/i, "#{aws['aws_access_key_id']}")
+  #     cfg.write_file
+  #   end
+  #   notifies :run, "execute[unicorn_restart]"
+  #   only_if do
+  #     ::File.read("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb").include?("ENV['AWS_KEY']")
+  #   end
+  # end
+  #
+  # ruby_block "Carrierwave conf replace AWS_SECRET" do
+  #   block do
+  #     cfg = Chef::Util::FileEdit.new("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
+  #     cfg.search_file_replace(/ENV\[\'AWS_SECRET\'\]/i, "#{aws['aws_secret_access_key']}")
+  #     cfg.write_file
+  #   end
+  #   notifies :run, "execute[unicorn_restart]"
+  #   only_if do
+  #     ::File.read("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb").include?("ENV['AWS_SECRET']")
+  #   end
+  # end
 
   template "#{deploy[:deploy_to]}/shared/config/mongoid.yml" do
     source "mongoid.yml.erb"
