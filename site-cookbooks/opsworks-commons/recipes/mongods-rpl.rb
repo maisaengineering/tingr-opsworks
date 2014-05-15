@@ -54,5 +54,5 @@ end
 
 execute "setup_mongods_rpl" do
   command "mongo < #{mongods_rpl_filepath}"
-  action :nothing
+  action :run
 end
