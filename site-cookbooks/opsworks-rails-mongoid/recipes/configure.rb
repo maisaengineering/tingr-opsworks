@@ -9,7 +9,27 @@
 
 # include_recipe 'deploy'
 
+
+
 node[:deploy].each do |application, deploy|
+  Chef::Log.info('CB reading aws databag...')
+  # get AWS credentials from the aws data_bag
+  aws = data_bag_item('aws', 'main')
+
+  Chef::Log.info('setting set-env-aws-key...')
+  ruby_block "set-env-aws-key" do
+    block do
+      ENV["AWS_KEY"] = java_home
+    end
+  end
+
+  Chef::Log.info('setting set-env-aws-secret...')
+  ruby_block "set-env-aws-secret" do
+    block do
+      ENV["AWS_SECRET"] = java_home
+    end
+  end
+
   deploy = node[:deploy][application]
   execute "Restart Rails stack #{application}" do
     cwd deploy[:current_path]

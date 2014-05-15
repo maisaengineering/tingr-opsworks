@@ -71,6 +71,15 @@ Chef::Log.info("node.name = #{node.name}")
 
 mongods_rpl_filepath = "/etc/mongods_rpl.js"
 
+Chef::Log.info("finding old replca set id...")
+old_replset_id=`mongo --eval "printjson(rs.status())" | grep "set" | cut -d"\"" -f4`
+Chef::Log.info("old_replset_id=#{old_replset_id}")
+
+Chef::Log.info("finding new replca set id...")
+new_replset_id=node['mongodb']['config']['replSet']
+Chef::Log.info("old_replset_id=#{new_replset_id}")
+
+Chef::Log.info("calling to create template")
 template mongods_rpl_filepath do
   source "mongods_rpl.js.erb"
   cookbook 'opsworks-commons'
@@ -78,13 +87,17 @@ template mongods_rpl_filepath do
   group node[:mongodb][:group]
   mode 0644
   variables(
-    :replSet => "KLReplicaSet",
-    :replicaset_instances => replicaset_members
+    :new_replset_id => new_replset_id,
+    :old_replset_id => old_replset_id,
+    :members => replicaset_members
   )
   action :create
 end
+
+Chef::Log.info("calling to create template")
 
 execute "setup_mongods_rpl" do
   command "mongo < #{mongods_rpl_filepath}"
   action :run
 end
+Chef::Log.info("create template done")

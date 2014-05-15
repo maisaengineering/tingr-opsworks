@@ -1,10 +1,14 @@
-var config = {
-     "_id" : "<%= @replSet %>",
+var cfg = {
+     "_id" : "<%= @new_replset_id %>",
      "members" : [
-     <% @replicaset_instances.each_with_index do |repl_member, index| -%>
-       { "_id" : <%= index %>, "host" : "<%= repl_member['fqdn'] %>:27017" },
+     <% @members.each_with_index do |member, index| -%>
+       { "_id" : <%= index %>, "host" : "<%= member['fqdn'] %>:27017" },
      <% end %>
      ]
 }
 
-rs.initiate(config);
+<% if @old_replset_id.to_s.empty? %>
+rs.initiate(cfg);
+<% else %>
+rs.reconfig(cfg);
+<% end %>
