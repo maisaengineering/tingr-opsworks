@@ -43,7 +43,7 @@ node[:deploy].each do |application, deploy|
 
   ruby_block "Carrierwave conf replace AWS_SECRET" do
     block do
-      carrierwave_cfg= Chef::Util::FileEdit.initialize("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
+      carrierwave_cfg= Chef::Util::FileEdit.new("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
       carrierwave_cfg.search_file_replace(/ENV\[\'AWS_SECRET\'\]/i, aws['aws_secret_access_key'])
     end
     notifies :run, "execute[unicorn_restart]"
