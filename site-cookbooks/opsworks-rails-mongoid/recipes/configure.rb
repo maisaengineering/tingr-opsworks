@@ -34,7 +34,7 @@ node[:deploy].each do |application, deploy|
 
   ruby_block "Carrierwave conf replace AWS KEY" do
     block do
-      carrierwave_cfg= Chef::Util::FileEdit.initialize("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
+      carrierwave_cfg= Chef::Util::FileEdit.new("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb")
       carrierwave_cfg.search_file_replace(/ENV\[\'AWS_KEY\'\]/i, aws['aws_access_key_id'])
     end
     notifies :run, "execute[unicorn_restart]"
