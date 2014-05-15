@@ -16,19 +16,19 @@ node[:deploy].each do |application, deploy|
   # get AWS credentials from the aws data_bag
   aws = data_bag_item('aws', 'main')
 
-  # Chef::Log.info('setting set-env-aws-key...')
-  # ruby_block "set-env-aws-key" do
-  #   block do
-  #     ENV["AWS_KEY"] = aws['aws_access_key_id']
-  #   end
-  # end
-  #
-  # Chef::Log.info('setting set-env-aws-secret...')
-  # ruby_block "set-env-aws-secret" do
-  #   block do
-  #     ENV["AWS_SECRET"] = aws['aws_secret_access_key']
-  #   end
-  # end
+  Chef::Log.info('setting set-env-aws-key...')
+  ruby_block "set-env-aws-key" do
+    block do
+      ENV["AWS_KEY"] = "#{aws['aws_access_key_id']}"
+    end
+  end
+
+  Chef::Log.info('setting set-env-aws-secret...')
+  ruby_block "set-env-aws-secret" do
+    block do
+      ENV["AWS_SECRET"] = "#{aws['aws_secret_access_key']}"
+    end
+  end
 
   deploy = node[:deploy][application]
 
