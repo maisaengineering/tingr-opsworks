@@ -34,7 +34,9 @@ node[:deploy].each do |application, deploy|
   ruby_block "dump ENV vars" do
     block do
       puts "ENV.to_a..."
-      put ENV.to_a
+      Chef::Log.info("ENV.to_a...#{ENV.to_a}")
+
+      puts ENV.to_a
     end
   end
 
