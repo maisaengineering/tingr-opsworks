@@ -8,17 +8,19 @@
 #
 
 include_recipe 'mongodb::mongo_gem'
-node.override['mongodb'] = {
-     "config" => {
-       "dbpath" => "/data/mongodb",
-       "logpath" => "/data/log/mongodb/mongodb.log",
-       "rest" => "false",
-       "bind_ip" => "0.0.0.0",
-       "replSet" => "KLReplicaSet",
-       "port" => "27017"
-    },
-    "ruby_gems" => { :mongo => nil,:bson_ext => nil }
-}
+
+node.override['mongodb']['config']['replSet'] = "KLReplicaSet"
+#
+# node.override['mongodb'] = {
+#      "config" => {
+#        "dbpath" => "/data/mongodb",
+#        "logpath" => "/data/log/mongodb/mongodb.log",
+#        "bind_ip" => "0.0.0.0",
+#        "replSet" => "KLReplicaSet",
+#        "port" => "27017"
+#     },
+#     "ruby_gems" => { :mongo => nil,:bson_ext => nil }
+# }
 
 include_recipe "mongodb::10gen_repo"
 include_recipe "mongodb::default"

@@ -7,14 +7,9 @@
 #     }
 # }
 
-default['mongodb'] = {
-    "cluster_name" => "default",
-     "config" => {
-       "rest" => "false",
-       "bind_ip" => "0.0.0.0",
-       "port" => "27017"
-    }
-}
+default['mongodb']['config']['rest']="false"
+default['mongodb']['config']['bind_ip']="0.0.0.0"
+default['mongodb']['config']['bind_ip']="27017"
 
 ### OPSWORKS CUSTOM JSON
 # {
