@@ -38,7 +38,9 @@ node[:deploy].each do |application, deploy|
       carrierwave_cfg.search_file_replace(/ENV\[\'AWS_KEY\'\]/i, aws['aws_access_key_id'])
     end
     notifies :run, "execute[unicorn_restart]"
-    only_if { ::File.read('/tmp/carrierwave.rb').include?("ENV['AWS_KEY']") }
+    only_if do
+      ::File.read('#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb').include?("ENV['AWS_KEY']")
+    end
   end
 
   ruby_block "Carrierwave conf replace AWS_SECRET" do
@@ -47,7 +49,9 @@ node[:deploy].each do |application, deploy|
       carrierwave_cfg.search_file_replace(/ENV\[\'AWS_SECRET\'\]/i, aws['aws_secret_access_key'])
     end
     notifies :run, "execute[unicorn_restart]"
-    only_if { ::File.read('/tmp/carrierwave.rb').include?("ENV['AWS_SECRET']") }
+    only_if do
+      ::File.read('#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb').include?("ENV['AWS_SECRET']")
+    end
   end
 
   # execute "Restart Rails stack #{application}" do
