@@ -7,12 +7,14 @@
 #     }
 # }
 
-default["opsworks-commons"]["ec2"] = false
-default["opsworks-commons"]["ebs"] = {
-  "raid" => false,
-  "size" => 20 # size is in GB
+default['mongodb'] = {
+    "cluster_name" => "default",
+     "config" => {
+       "rest" => "false",
+       "bind_ip" => "0.0.0.0",
+       "port" => "27017"
+    }
 }
-
 
 ### OPSWORKS CUSTOM JSON
 # {

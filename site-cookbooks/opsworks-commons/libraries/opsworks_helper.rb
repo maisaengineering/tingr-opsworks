@@ -10,19 +10,15 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
   end
 
   # return Chef Nodes for this replicaset / layer
-  def self.replicaset_members(node)
+  def self.replicaset_members_with_mongo_conf(node)
     members = []
     # FIXME -> this is bad, we're assuming replicaset instances use a single layer
-    replicaset_layer_slug_name = node['opsworks']['instance']['layers'].first
-    instances = node['opsworks']['layers'][replicaset_layer_slug_name]['instances']
+    node_layer = node['opsworks']['instance']['layers'].first
+    instances = node['opsworks']['layers'][node_layer]['instances']
     instances.each do |name, instance|
       if instance['status'] == 'online'
         member = Chef::Node.new
-        Chef::Log.info("CB member name BEFORE = #{name}")
         new_name = "#{name}.localdomain"
-
-        Chef::Log.info("CB member name AFTER = #{new_name}")
-
         member.name(new_name)
         member.default['fqdn'] = instance['private_dns_name']
         member.default['ipaddress'] = instance['private_ip']
@@ -55,10 +51,22 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
     members
   end
 
-  # true if we're on opsworks, false otherwise
-  # def self.configure_replicaset?(replicaset, replicaset_name, replicaset_layer_instances )
-  #   Chef::Log.debug("About to call MongoDB for rpl setup replicaset=#{replicaset}, replicaset_name=#{replicaset_name}, replicaset_layer_instances=#{replicaset_layer_instances}")
-  #   # MongoDB.configure_replicaset(new_resource.replicaset, replicaset_name, replicaset_layer_instances)
-  # end
-
+  def self.replicaset_members(node)
+    members = []
+    # FIXME -> this is bad, we're assuming replicaset instances use a single layer
+    node_layer = node['opsworks']['instance']['layers'].first
+    instances = node['opsworks']['layers'][node_layer]['instances']
+    instances.each do |name, instance|
+      if instance['status'] == 'online'
+        member = Chef::Node.new
+        new_name = "#{name}.localdomain"
+        member.name(new_name)
+        member.default['fqdn'] = instance['private_dns_name']
+        member.default['ipaddress'] = instance['private_ip']
+        member.default['hostname'] = new_name
+        members << member
+      end
+    end
+    members
+  end
 end
