@@ -30,6 +30,15 @@ node[:deploy].each do |application, deploy|
   #   end
   # end
 
+  Chef::Log.info('dump ENV vars...')
+  ruby_block "dump ENV vars" do
+    block do
+      puts "ENV.to_a..."
+      put ENV.to_a
+    end
+  end
+
+
   deploy = node[:deploy][application]
 
   # ruby_block "Carrierwave conf replace AWS KEY" do
