@@ -49,6 +49,7 @@ template mongods_rpl_filepath do
     :members => replicaset_members
   )
   action :create
+  notifies :run, "execute[setup_mongods_rpl]", :immediately
 end
 
 execute "setup_mongods_rpl" do
