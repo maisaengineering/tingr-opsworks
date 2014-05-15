@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'mongodb::mongo_gem'
+# include_recipe 'mongodb::mongo_gem'
 
 node.override['mongodb']['config']['replSet'] = "KLReplicaSet"
 #
