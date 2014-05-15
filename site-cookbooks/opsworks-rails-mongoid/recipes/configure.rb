@@ -39,7 +39,7 @@ node[:deploy].each do |application, deploy|
     end
     notifies :run, "execute[unicorn_restart]"
     only_if do
-      ::File.read('#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb').include?("ENV['AWS_KEY']")
+      ::File.read("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb").include?("ENV['AWS_KEY']")
     end
   end
 
@@ -50,7 +50,7 @@ node[:deploy].each do |application, deploy|
     end
     notifies :run, "execute[unicorn_restart]"
     only_if do
-      ::File.read('#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb').include?("ENV['AWS_SECRET']")
+      ::File.read("#{deploy[:deploy_to]}/current/config/initializers/carrierwave.rb").include?("ENV['AWS_SECRET']")
     end
   end
 
