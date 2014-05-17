@@ -62,7 +62,6 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
       hidden_members << node['opsworks']['mongodb']['hidden']
     end
 
-
     layers.uniq.each do |layer|
       instances = node['opsworks']['layers'][layer]['instances']
       instances.each do |name, instance|
@@ -73,11 +72,10 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
           member.default['fqdn'] = instance['private_dns_name']
           member.default['ipaddress'] = instance['private_ip']
           member.default['hostname'] = new_name
-          member.default['priority'] = instance['private_ip'].gsub(/^.*\.(?=\d+)/, '').to_i,
+          member.default['priority'] = instance['private_ip'].gsub(/^.*\.(?=\d+)/, '').to_i
 
           # from mongodb overrides
           member.default['hidden'] = hidden_members.include?(name)
-
           members << member
         end
       end
