@@ -27,7 +27,9 @@ node.override['mongodb']['config']['logpath'] = "/data/log/mongodb/mongodb.log"
 include_recipe "mongodb::mongodb_org_repo"
 include_recipe "mongodb::default"
 
-replicaset_members= Chef::ResourceDefinitionList::OpsWorksHelper.replicaset_members(node)
+replicaset_members=Chef::ResourceDefinitionList::OpsWorksHelper.replicaset_members(node)
+Chef::Log.info("replicaset_members=#{replicaset_members}")
+
 replicaset_members.each_with_index { |item, n| Chef::Log.info("#{n}...#{item[n].inspect}") }
 
 old_replset_id=`mongo --eval "printjson(rs.status())" | egrep -i '^\s+"set"' | cut -d'"' -f4`

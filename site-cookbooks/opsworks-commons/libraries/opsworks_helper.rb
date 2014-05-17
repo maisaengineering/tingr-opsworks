@@ -85,10 +85,15 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
 
           # from mongodb overrides
           member.default['hidden'] = hidden_members.include?(name)
+
+          Chef::Log.info("adding member to arr...#{member}")
+
           members << member
         end
       end
     end
+    Chef::Log.info("members=#{members}")
+
     members
   end
 
