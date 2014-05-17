@@ -58,8 +58,8 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
 
     # from mongodb overrides
     unless node[:mongodb].nil?
-      layers << node[:mongodb][:layers] unless node[:mongodb][:layers].nil?
-      hidden_members << node[:mongodb][:hidden] unless node[:mongodb][:hidden].nil?
+      layers << node[:mongodb][:layers].split(",") unless node[:mongodb][:layers].nil?
+      hidden_members << node[:mongodb][:hidden].split(",") unless node[:mongodb][:hidden].nil?
       hidden_members.flatten!
     end
 
