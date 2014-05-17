@@ -53,22 +53,31 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
 
   def self.replicaset_members(node)
     members = []
-
-    layers = [ node['opsworks']['instance']['layers'].first ]
     hidden_members = []
+    layers = [ node['opsworks']['instance']['layers'].first ]
+
+    Chef::Log.info("mongodb=#{node['opsworks']['mongodb']}")
+
     # from mongodb overrides
     unless node['opsworks']['mongodb'].nil?
       layers << node['opsworks']['mongodb']['layers']
       hidden_members << node['opsworks']['mongodb']['hidden']
     end
+    Chef::Log.info("layers=#{layers.inspect}")
+
+    Chef::Log.info("hidden_members=#{hidden_members.inspect}")
 
     layers.uniq.each do |layer|
+      Chef::Log.info("layer=#{layer}")
       instances = node['opsworks']['layers'][layer]['instances']
       instances.each do |name, instance|
+        Chef::Log.info("name=#{name}, instance=#{instance}")
         if instance['status'] == 'online'
+          Chef::Log.info("online instance=#{instance}")
           member = Chef::Node.new
           new_name = "#{name}.localdomain"
           member.name(name)
+          member.default['name'] = name
           member.default['fqdn'] = instance['private_dns_name']
           member.default['ipaddress'] = instance['private_ip']
           member.default['hostname'] = new_name
