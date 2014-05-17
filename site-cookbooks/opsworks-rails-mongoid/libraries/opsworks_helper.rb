@@ -1,7 +1,5 @@
 require 'chef/node'
 
-# include Chef::ResourceDefinitionList::MongoDB
-
 class Chef::ResourceDefinitionList::OpsWorksHelper
 
   # true if we're on opsworks, false otherwise
@@ -97,8 +95,11 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
     members
   end
 
+  def find_keyspace()
+    Chef::Log.info("find_keyspace NOARGs")
+  end
 
-  def find_keyspace(hist="127.0.0.1", port=27017)
+  def find_keyspace(host="127.0.0.1", port=27017)
     puts "requiring mongo..."
     begin
       require 'mongo'
