@@ -67,7 +67,7 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
 
     Chef::Log.info("hidden_members=#{hidden_members.inspect}")
 
-    layers.uniq!.each do |layer|
+    layers.each do |layer|
       Chef::Log.info("layer=#{layer}")
       instances = node['opsworks']['layers'][layer]['instances']
       instances.each do |name, instance|
