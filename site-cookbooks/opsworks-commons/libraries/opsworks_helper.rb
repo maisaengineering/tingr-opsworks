@@ -56,12 +56,10 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
     hidden_members = []
     layers = [ node['opsworks']['instance']['layers'].first ]
 
-    Chef::Log.info("mongodb=#{node['opsworks']['mongodb']}")
-
     # from mongodb overrides
-    unless node['opsworks']['mongodb'].nil?
-      layers << node['opsworks']['mongodb']['layers']
-      hidden_members << node['opsworks']['mongodb']['hidden']
+    unless node[:mongodb].nil?
+      layers << node[:mongodb][:layers]
+      hidden_members << node[:mongodb][:hidden]
     end
     Chef::Log.info("layers=#{layers.inspect}")
 
