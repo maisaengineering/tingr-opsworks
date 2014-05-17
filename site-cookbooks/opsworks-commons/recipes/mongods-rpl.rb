@@ -36,6 +36,9 @@ Chef::Log.info("old_replset_id=#{old_replset_id}")
 new_replset_id=node['mongodb']['config']['replSet']
 Chef::Log.info("new_replset_id=#{new_replset_id}")
 
+Chef::Log.info("replicaset_members=#{replicaset_members.inspect}")
+
+
 mongods_rpl_filepath = "/etc/mongods_rpl.js"
 template mongods_rpl_filepath do
   source "mongods_rpl.js.erb"
