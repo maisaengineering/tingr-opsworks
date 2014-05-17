@@ -58,7 +58,8 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
 
     # from mongodb overrides
     unless node[:mongodb].nil?
-      layers << node[:mongodb][:layers]
+      Chef::Log.info("layers class =#{node[:mongodb][:layers].class}")  
+      layers << Array.new(node[:mongodb][:layers])
       hidden_members << node[:mongodb][:hidden]
     end
     Chef::Log.info("layers=#{layers.inspect}")
