@@ -29,14 +29,14 @@ include_recipe "opsworks-rails-mongoid::default"
 include_recipe "mongodb::mongodb_org_repo"
 include_recipe "mongodb::default"
 
-replicaset_members=Chef::ResourceDefinitionList::OpsWorksHelper.replicaset_members(node)
+replicaset_members=Chef::ResourceDefinitionList::OpsWorksORMHelper.replicaset_members(node)
 
 Chef::Log.info("replicaset_members=#{replicaset_members}")
 puts "RUBY replicaset_members=#{replicaset_members.inspect}"
 
 replicaset_members.each_with_index { |item, n| Chef::Log.info("#{n}...#{item.inspect}") }
 
-old_replset_id=Chef::ResourceDefinitionList::OpsWorksHelper.find_keyspace("127.0.0.1", 27017)
+old_replset_id=Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace("127.0.0.1", 27017)
 
 # old_replset_id=`mongo --eval "printjson(rs.status())" | egrep -i '^\s+"set"' | cut -d'"' -f4`
 

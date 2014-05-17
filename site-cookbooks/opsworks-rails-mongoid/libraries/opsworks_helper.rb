@@ -1,6 +1,6 @@
 require 'chef/node'
 
-class Chef::ResourceDefinitionList::OpsWorksHelper
+class Chef::ResourceDefinitionList::OpsWorksORMHelper
 
   # true if we're on opsworks, false otherwise
   def self.opsworks?(node)
