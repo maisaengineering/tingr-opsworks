@@ -58,9 +58,8 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
 
     # from mongodb overrides
     unless node[:mongodb].nil?
-      layers << node[:mongodb][:layers].split(",") unless node[:mongodb][:layers].nil?
-      hidden_members << node[:mongodb][:hidden].split(",") unless node[:mongodb][:hidden].nil?
-      hidden_members.flatten!
+      layers |= node[:mongodb][:layers].split(",") unless node[:mongodb][:layers].nil?
+      hidden_members |= node[:mongodb][:hidden].split(",") unless node[:mongodb][:hidden].nil?
     end
 
 
@@ -68,7 +67,7 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
 
     Chef::Log.info("hidden_members=#{hidden_members.inspect}")
 
-    layers.flatten!.uniq!.each do |layer|
+    layers.uniq!.each do |layer|
       Chef::Log.info("layer=#{layer}")
       instances = node['opsworks']['layers'][layer]['instances']
       instances.each do |name, instance|
