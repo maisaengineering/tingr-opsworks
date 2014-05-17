@@ -60,7 +60,7 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
     unless node[:mongodb].nil?
       layers << node[:mongodb][:layers] unless node[:mongodb][:layers].nil?
       hidden_members << node[:mongodb][:hidden] unless node[:mongodb][:hidden].nil?
-      hidden_members.flatten!.uniq!
+      hidden_members.flatten!
     end
 
 
