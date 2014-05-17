@@ -12,5 +12,4 @@ depends 'java'
 depends 'imagemagick'
 depends 'wkhtmltopdf'
 
-depends 'mongodb'
 depends 'aws'
