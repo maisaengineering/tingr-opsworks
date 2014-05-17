@@ -89,21 +89,6 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
         end
       end
     end
-    #
-    #
-    # instances = node['opsworks']['layers'][node_layer]['instances']
-    # instances.each do |name, instance|
-    #   if instance['status'] == 'online'
-    #     member = Chef::Node.new
-    #     new_name = "#{name}.localdomain"
-    #     member.name(name)
-    #     member.default['fqdn'] = instance['private_dns_name']
-    #     member.default['ipaddress'] = instance['private_ip']
-    #     member.default['hostname'] = new_name
-    #     member.default['priority'] => instance['private_ip'].gsub(/^.*\.(?=\d+)/, '').to_i,
-    #     members << member
-    #   end
-    # end
     members
   end
 
