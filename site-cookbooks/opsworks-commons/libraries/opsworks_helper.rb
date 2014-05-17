@@ -57,7 +57,7 @@ class Chef::ResourceDefinitionList::OpsWorksHelper
     layers = [ node['opsworks']['instance']['layers'].first ]
     hidden_members = []
     # from mongodb overrides
-    unless ['opsworks']['mongodb'].nil?
+    unless node['opsworks']['mongodb'].nil?
       layers << node['opsworks']['mongodb']['layers']
       hidden_members << node['opsworks']['mongodb']['hidden']
     end
