@@ -95,11 +95,7 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     members
   end
 
-  def grab_keyspace()
-    Chef::Log.info("find_keyspace NOARGs")
-  end
-
-  def grab_keyspace(host="127.0.0.1", port=27017)
+  def self.find_keyspace(host="127.0.0.1", port=27017)
     puts "requiring mongo..."
     begin
       require 'mongo'
