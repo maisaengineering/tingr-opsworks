@@ -131,7 +131,8 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
 
     cmd_result.each do |k, v|
       Chef::Log.info("k=#{k} v=#{v}")
-      if k <=> "set"
+      if "set".eql?(k)
+        Chef::Log.info("setting k=#{k} v=#{v}")
         old_keyspace=v
       end
     end
