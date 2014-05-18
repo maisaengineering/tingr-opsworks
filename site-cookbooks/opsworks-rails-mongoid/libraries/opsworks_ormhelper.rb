@@ -100,6 +100,7 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     begin
       require 'mongo'
       require 'json'
+      require 'bson'
     rescue LoadError => e
       Chef::Log.error("Missing required gems. Use the default recipe to install it first. Exception=#{e}")
     end
@@ -117,7 +118,7 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     # end
 
     @db = Mongo::MongoClient.new(host, port).db('admin')
-    cmd = Mongo::BSON::OrderedHash.new
+    cmd = BSON::OrderedHash.new
     cmd['replSetGetStatus'] = 1
 
     cmd_result = @db.command(cmd)
