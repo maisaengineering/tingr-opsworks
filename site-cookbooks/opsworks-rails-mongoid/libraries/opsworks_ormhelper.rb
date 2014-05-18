@@ -123,8 +123,20 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
 
     cmd_result = @db.command(cmd)
     Chef::Log.info("cmd_result...#{cmd_result}")
-    Chef::Log.info("cmd_result.set...#{cmd_result.try(:set)}")
-    old_keyspace=cmd_result.try(:set)
+    Chef::Log.info("cmd_result KEYS...#{cmd_result.keys}")
+    Chef::Log.info("cmd_result VALUES...#{cmd_result.values}")
+
+    Chef::Log.info("cmd_result hash...#{cmd_result.hash}")
+    Chef::Log.info("cmd_result hash...#{cmd_result.to_a}")
+
+    cmd_result.each do |k, v|
+      Chef::Log.info("k=#{k} v=#{v}")
+      if k <=> "set"
+        old_keyspace=v
+      end
+    end
+
+    Chef::Log.info("cmd_result.set...#{cmd_result[:set]")
 
     puts "NEW old_keyspace...#{old_keyspace}"
     Chef::Log.info("old_keyspace...#{old_keyspace}")
