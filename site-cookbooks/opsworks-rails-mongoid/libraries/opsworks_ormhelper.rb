@@ -104,23 +104,20 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
       Chef::Log.error("Missing required gems. Use the default recipe to install it first. Exception=#{e}")
     end
 
-    Chef::Log.info("running mongo status")
-    config_raw=`mongo --eval "printjson(rs.config())"`
+    Chef::Log.info("running config command")
+    old_keyspace=`mongo --eval "printjson(rs.config())" | egrep -i '^\s+"_id"' -m 1 | cut -d'"' -f4`
+    Chef::Log.info("old_keyspace...#{old_keyspace}")
 
-    begin
-      config_raw_2=`mongo --eval "printjson(rs.status())" | egrep -i '^\s+"set"' | cut -d'"' -f4`
-      Chef::Log.info("config_raw_2...#{config_raw_2}")
-
-      Chef::Log.info("raw...#{config_raw}")
-      config=JSON.parse(config_raw)
-      Chef::Log.info("parsed...#{config}")
-      old_keyspace=config["_id"]
-    rescue Exception => e
-      Chef::Log.error("Unable to process node data. Please check logs. Exception=#{e}")
-    end
+    # begin
+    #
+    #   Chef::Log.info("raw...#{config_raw}")
+    #   old_keyspace=config["_id"]
+    # rescue Exception => e
+    #   Chef::Log.error("Unable to process node data. Please check logs. Exception=#{e}")
+    # end
 
     @db = Mongo::MongoClient.new(host, port).db('admin')
-    cmd = OrderedHash.new
+    cmd = BSON::OrderedHash.new
     cmd['replSetGetStatus'] = 1
 
     cmd_result = @db.command(cmd)
