@@ -21,8 +21,8 @@
 # }
 
 node.override['mongodb']['config']['replSet'] = "KLReplicaSet"
-node.override['mongodb']['config']['dbpath'] = "/data/mongodb"
-node.override['mongodb']['config']['logpath'] = "/data/log/mongodb/mongodb.log"
+# node.override['mongodb']['config']['dbpath'] = "/data/mongodb"
+# node.override['mongodb']['config']['logpath'] = "/data/log/mongodb/mongodb.log"
 
 include_recipe "opsworks-rails-mongoid::default"
 
