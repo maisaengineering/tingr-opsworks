@@ -99,13 +99,20 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     puts "requiring mongo..."
     begin
       require 'mongo'
+      require 'json'
     rescue LoadError
-      Chef::Log.error("Missing gem 'mongo'. Use the default recipe to install it first.")
+      Chef::Log.error("Missing required gems. Use the default recipe to install it first.")
     end
 
-    puts "Executing shell script to query on given mongo"
     Chef::Log.info("running mongo status")
-    old_keyspace=`mongo --eval "printjson(rs.config())"`
+    config_raw=`mongo --eval "printjson(rs.config())"`
+    begin
+      config=JSON.parse(config_raw)
+      old_keyspace=config["_id"]
+    rescue
+      Chef::Log.error("Unable to process node data. Please check logs.")
+    end
+
     puts "old_keyspace...#{old_keyspace}"
     Chef::Log.info("old_keyspace...#{old_keyspace}")
 

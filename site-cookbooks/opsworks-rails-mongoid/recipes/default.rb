@@ -13,3 +13,4 @@ chef_gem "mongo" do
 end
 
 require 'mongo'
+require 'json'
