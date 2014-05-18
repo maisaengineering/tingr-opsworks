@@ -106,7 +106,11 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
 
     Chef::Log.info("running mongo status")
     config_raw=`mongo --eval "printjson(rs.config())"`
+
     begin
+      config_raw_2=`mongo --eval "printjson(rs.status())" | egrep -i '^\s+"set"' | cut -d'"' -f4`
+      Chef::Log.info("config_raw_2...#{config_raw_2}")
+
       Chef::Log.info("raw...#{config_raw}")
       config=JSON.parse(config_raw)
       Chef::Log.info("parsed...#{config}")
@@ -114,6 +118,16 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     rescue Exception => e
       Chef::Log.error("Unable to process node data. Please check logs. Exception=#{e}")
     end
+
+    @db = MongoClient.new(host, port).db('admin')
+    cmd = OrderedHash.new
+    cmd['replSetGetStatus'] = 1
+
+    cmd_result = @db.command(cmd)
+    Chef::Log.info("cmd_result...#{cmd_result}")
+
+    db_status=DB.command( { "rs.status()"} )
+    Chef::Log.info("db_status...#{db_status}")
 
     puts "old_keyspace...#{old_keyspace}"
     Chef::Log.info("old_keyspace...#{old_keyspace}")
