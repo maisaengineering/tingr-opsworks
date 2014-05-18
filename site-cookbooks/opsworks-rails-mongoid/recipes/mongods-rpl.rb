@@ -36,7 +36,7 @@ puts "RUBY replicaset_members=#{replicaset_members.inspect}"
 
 replicaset_members.each_with_index { |item, n| Chef::Log.info("#{n}...#{item.inspect}") }
 
-old_replset_id=Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace("127.0.0.1", 27017)
+old_replset_id=Chef::ResourceDefinitionList::OpsWorksORMHelper.grab_keyspace()
 
 # old_replset_id=`mongo --eval "printjson(rs.status())" | egrep -i '^\s+"set"' | cut -d'"' -f4`
 
