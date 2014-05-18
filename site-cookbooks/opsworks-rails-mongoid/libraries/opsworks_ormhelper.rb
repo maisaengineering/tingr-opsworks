@@ -99,64 +99,22 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     puts "requiring mongo..."
     begin
       require 'mongo'
-      require 'json'
       require 'bson'
     rescue LoadError => e
       Chef::Log.error("Missing required gems. Use the default recipe to install it first. Exception=#{e}")
     end
 
-    Chef::Log.info("running config command")
-    old_keyspace=`mongo --eval "printjson(rs.config())" | egrep -i '^\s+"_id"' -m 1 | cut -d'"' -f4`
-    Chef::Log.info("OLD old_keyspace...#{old_keyspace}")
-
-    # begin
-    #
-    #   Chef::Log.info("raw...#{config_raw}")
-    #   old_keyspace=config["_id"]
-    # rescue Exception => e
-    #   Chef::Log.error("Unable to process node data. Please check logs. Exception=#{e}")
-    # end
-
     @db = Mongo::MongoClient.new(host, port).db('admin')
     cmd = BSON::OrderedHash.new
     cmd['replSetGetStatus'] = 1
-
     cmd_result = @db.command(cmd)
-    Chef::Log.info("cmd_result...#{cmd_result}")
-    Chef::Log.info("cmd_result KEYS...#{cmd_result.keys}")
-    Chef::Log.info("cmd_result VALUES...#{cmd_result.values}")
-
-    Chef::Log.info("cmd_result hash...#{cmd_result.hash}")
-    Chef::Log.info("cmd_result hash...#{cmd_result.to_a}")
-
     cmd_result.each do |k, v|
-      Chef::Log.info("k=#{k} v=#{v}")
       if "set".eql?(k)
-        Chef::Log.info("setting k=#{k} v=#{v}")
-        old_keyspace=v
+        @keyspace=v
       end
     end
 
-    Chef::Log.info("cmd_result.set...#{cmd_result[:set]}")
-
-    puts "NEW old_keyspace...#{old_keyspace}"
-    Chef::Log.info("old_keyspace...#{old_keyspace}")
-
-    Chef::Log.info("host=#{host}, port=#{port}")
-    connection = Mongo::Connection.new(host, port)
-    Chef::Log.info("connection=#{connection.inspect}")
-    connection.database_info.each { |info| puts info.inspect}
-
-    Chef::Log.info("reading collections...")
-    connection.db("local").collection_names.each { |name| puts name }
-
-
-
-
-
-    puts "inspecting...#{connection.inspect}"
-
-    old_keyspace
+    @keyspace
   end
 
 

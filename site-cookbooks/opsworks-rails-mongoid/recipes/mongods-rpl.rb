@@ -30,23 +30,12 @@ include_recipe "mongodb::mongodb_org_repo"
 include_recipe "mongodb::default"
 
 replicaset_members=Chef::ResourceDefinitionList::OpsWorksORMHelper.replicaset_members(node)
-
-Chef::Log.info("replicaset_members=#{replicaset_members}")
-puts "RUBY replicaset_members=#{replicaset_members.inspect}"
-
 replicaset_members.each_with_index { |item, n| Chef::Log.info("#{n}...#{item.inspect}") }
 
 old_replset_id=Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace(node['opsworks']['instance']['hostname'], 27017)
-
-# old_replset_id=`mongo --eval "printjson(rs.status())" | egrep -i '^\s+"set"' | cut -d'"' -f4`
-
-Chef::Log.info("old_replset_id=#{old_replset_id}")
 new_replset_id=node['mongodb']['config']['replSet']
 
-Chef::Log.info("new_replset_id=#{new_replset_id}")
-
-Chef::Log.info("replicaset_members=#{replicaset_members.inspect}")
-
+Chef::Log.info("old replica set=#{old_replset_id}, new replica set=#{new_replset_id}")
 mongods_rpl_filepath="/etc/mongods_rpl.js"
 template mongods_rpl_filepath do
   source "mongods_rpl.js.erb"
@@ -60,7 +49,7 @@ template mongods_rpl_filepath do
     :members => replicaset_members
   )
   action :create
-  notifies :run, "execute[setup_mongods_rpl]", :immediately
+  notifies :run, "execute[setup_mongods_rpl]"
 end
 
 execute "setup_mongods_rpl" do
