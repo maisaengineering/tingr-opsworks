@@ -104,9 +104,8 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     end
 
     puts "Executing shell script to query on given mongo"
-    Chef::Log.info("Executing shell script to query on given mongo")
-
-    old_keyspace=`mongo --eval "printjson(rs.status())" | egrep -i '^\s+"set"' | cut -d'"' -f4`
+    Chef::Log.info("running mongo status")
+    old_keyspace=`mongo --eval "printjson(rs.config())"`
     puts "old_keyspace...#{old_keyspace}"
     Chef::Log.info("old_keyspace...#{old_keyspace}")
 
@@ -114,7 +113,7 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     db = Mongo::Connection.new(host, port)
 
     Chef::Log.info("db=#{db}")
-    puts "inspecting...#{db.inspect}" 
+    puts "inspecting...#{db.inspect}"
 
     old_keyspace
   end
