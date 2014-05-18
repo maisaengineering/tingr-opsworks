@@ -33,8 +33,10 @@ old_replset_id=nil
 
 replicaset_members=Chef::ResourceDefinitionList::OpsWorksORMHelper.replicaset_members(node)
 replicaset_members.each_with_index { |member, index|
+  Chef::Log.info("member.name=#{member['name']}")
+
   node_rs=Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace(member['name'], 27017)
-  old_replset_id = node_ks unless node_ks.to_s.empty?
+  old_replset_id = node_rs unless node_rs.to_s.empty?
 }
 
 # old_replset_id=Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace(node['opsworks']['instance']['hostname'], 27017)
