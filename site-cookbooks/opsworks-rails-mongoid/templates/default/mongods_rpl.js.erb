@@ -1,3 +1,4 @@
+<% if @old_replset_id.to_s.empty? %>
 var cfg = {
      "_id" : "<%= @new_replset_id %>",
      "members" : [
@@ -6,9 +7,18 @@ var cfg = {
      <% end %>
      ]
 }
-
-<% if @old_replset_id.to_s.empty? %>
 rs.initiate(cfg);
 <% else %>
-rs.reconfig(cfg,{force : true});
+
+use local;
+var cfg = db.system.replset.findOne( { "_id": "<%= @new_replset_id %>"} );
+cfg.members = [
+      <% @members.each_with_index do |member, index| -%>
+        { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= member['hidden']? 0 : member['priority'] %>, "hidden" : <%= member['hidden'] || false %> },
+      <% end %>
+     ];
+
+db.system.replset.update( { "_id": "<%= @new_replset_id %>" }, cfg );
+
+// rs.reconfig(cfg,{force : true});
 <% end %>
