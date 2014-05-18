@@ -126,9 +126,6 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     cmd_result = @db.command(cmd)
     Chef::Log.info("cmd_result...#{cmd_result}")
 
-    db_status=DB.command( { "rs.status()"} )
-    Chef::Log.info("db_status...#{db_status}")
-
     puts "old_keyspace...#{old_keyspace}"
     Chef::Log.info("old_keyspace...#{old_keyspace}")
 
