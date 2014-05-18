@@ -119,7 +119,7 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
       Chef::Log.error("Unable to process node data. Please check logs. Exception=#{e}")
     end
 
-    @db = MongoClient.new(host, port).db('admin')
+    @db = Mongo::MongoClient.new(host, port).db('admin')
     cmd = OrderedHash.new
     cmd['replSetGetStatus'] = 1
 
