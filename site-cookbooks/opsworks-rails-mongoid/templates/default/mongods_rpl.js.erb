@@ -10,5 +10,5 @@ var cfg = {
 <% if @old_replset_id.to_s.empty? %>
 rs.initiate(cfg);
 <% else %>
-rs.reconfig(cfg);
+rs.reconfig(cfg,{force : true});
 <% end %>
