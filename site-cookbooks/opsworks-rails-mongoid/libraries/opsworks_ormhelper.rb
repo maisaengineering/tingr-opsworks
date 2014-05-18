@@ -136,7 +136,7 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
       end
     end
 
-    Chef::Log.info("cmd_result.set...#{cmd_result[:set]")
+    Chef::Log.info("cmd_result.set...#{cmd_result[:set]}")
 
     puts "NEW old_keyspace...#{old_keyspace}"
     Chef::Log.info("old_keyspace...#{old_keyspace}")
