@@ -107,7 +107,7 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
 
     Chef::Log.info("running config command")
     old_keyspace=`mongo --eval "printjson(rs.config())" | egrep -i '^\s+"_id"' -m 1 | cut -d'"' -f4`
-    Chef::Log.info("old_keyspace...#{old_keyspace}")
+    Chef::Log.info("OLD old_keyspace...#{old_keyspace}")
 
     # begin
     #
@@ -123,8 +123,10 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
 
     cmd_result = @db.command(cmd)
     Chef::Log.info("cmd_result...#{cmd_result}")
+    Chef::Log.info("cmd_result.set...#{cmd_result.try(:set)}")
+    old_keyspace=cmd_result.try(:set)
 
-    puts "old_keyspace...#{old_keyspace}"
+    puts "NEW old_keyspace...#{old_keyspace}"
     Chef::Log.info("old_keyspace...#{old_keyspace}")
 
     Chef::Log.info("host=#{host}, port=#{port}")
