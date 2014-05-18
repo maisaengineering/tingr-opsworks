@@ -29,11 +29,13 @@ include_recipe "opsworks-rails-mongoid::default"
 include_recipe "mongodb::mongodb_org_repo"
 include_recipe "mongodb::default"
 
+old_replset_id=nil
+
 replicaset_members=Chef::ResourceDefinitionList::OpsWorksORMHelper.replicaset_members(node)
 replicaset_members.each_with_index { |member, index|
-  old_replset_id ||= Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace(member['name'], 27017)
+  node_rs=Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace(member['name'], 27017)
+  old_replset_id = node_ks unless node_ks.to_s.empty?
 }
-
 
 # old_replset_id=Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace(node['opsworks']['instance']['hostname'], 27017)
 new_replset_id=node['mongodb']['config']['replSet']
