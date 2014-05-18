@@ -117,7 +117,7 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     # end
 
     @db = Mongo::MongoClient.new(host, port).db('admin')
-    cmd = BSON::OrderedHash.new
+    cmd = Mongo::BSON::OrderedHash.new
     cmd['replSetGetStatus'] = 1
 
     cmd_result = @db.command(cmd)
