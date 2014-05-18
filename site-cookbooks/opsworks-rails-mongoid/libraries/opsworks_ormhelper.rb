@@ -119,8 +119,8 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     Chef::Log.info("old_keyspace...#{old_keyspace}")
 
     Chef::Log.info("host=#{host}, port=#{port}")
-    Chef::Log.info("connection=#{connection.inspect}")
     connection = Mongo::Connection.new(host, port)
+    Chef::Log.info("connection=#{connection.inspect}")
     connection.database_info.each { |info| puts info.inspect}
 
     Chef::Log.info("reading collections...")
