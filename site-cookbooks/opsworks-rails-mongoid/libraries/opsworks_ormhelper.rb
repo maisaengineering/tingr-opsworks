@@ -114,7 +114,7 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     db = Mongo::Connection.new(host, port)
 
     Chef::Log.info("db=#{db}")
-    puts "inspecting..." db.inspect
+    puts "inspecting...#{db.inspect}" 
 
     old_keyspace
   end
