@@ -104,18 +104,21 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
       Chef::Log.error("Missing required gems. Use the default recipe to install it first. Exception=#{e}")
     end
 
-    @db = Mongo::MongoClient.new(host, port).db('admin')
-    cmd = BSON::OrderedHash.new
-    cmd['replSetGetStatus'] = 1
-    cmd_result = @db.command(cmd)
-    cmd_result.each do |k, v|
-      if "set".eql?(k)
-        @keyspace=v
+    begin
+      @db = Mongo::MongoClient.new(host, port).db('admin')
+      cmd = BSON::OrderedHash.new
+      cmd['replSetGetStatus'] = 1
+      cmd_result = @db.command(cmd)
+      cmd_result.each do |k, v|
+        if "set".eql?(k)
+          @keyspace=v
+        end
       end
+    rescue Mongo::OperationFailure => e
+      Chef::Log.warn("Mostly ReplicaSet not found. May be time to initialize? Exception=#{e}")
     end
 
     @keyspace
   end
-
 
 end
