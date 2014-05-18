@@ -50,7 +50,7 @@ Chef::Log.info("replicaset_members=#{replicaset_members.inspect}")
 mongods_rpl_filepath="/etc/mongods_rpl.js"
 template mongods_rpl_filepath do
   source "mongods_rpl.js.erb"
-  cookbook 'opsworks-commons'
+  cookbook "opsworks-rails-mongoid"
   owner node[:mongodb][:user]
   group node[:mongodb][:group]
   mode 0644

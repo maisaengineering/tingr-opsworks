@@ -109,6 +109,13 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     old_keyspace=`mongo --eval "printjson(rs.status())" | egrep -i '^\s+"set"' | cut -d'"' -f4`
     puts "old_keyspace...#{old_keyspace}"
     Chef::Log.info("old_keyspace...#{old_keyspace}")
+
+    Chef::Log.info("host=#{host}, port=#{port}")
+    db = Mongo::Connection.new(host, port)
+
+    Chef::Log.info("db=#{db}")
+    puts "inspecting..." db.inspect
+
     old_keyspace
   end
 
