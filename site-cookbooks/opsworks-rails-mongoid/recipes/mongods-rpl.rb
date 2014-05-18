@@ -30,9 +30,12 @@ include_recipe "mongodb::mongodb_org_repo"
 include_recipe "mongodb::default"
 
 replicaset_members=Chef::ResourceDefinitionList::OpsWorksORMHelper.replicaset_members(node)
-replicaset_members.each_with_index { |item, n| Chef::Log.info("#{n}...#{item.inspect}") }
+replicaset_members.each_with_index { |member, index|
+  old_replset_id ||= Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace(member['name'], 27017)
+}
 
-old_replset_id=Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace(node['opsworks']['instance']['hostname'], 27017)
+
+# old_replset_id=Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace(node['opsworks']['instance']['hostname'], 27017)
 new_replset_id=node['mongodb']['config']['replSet']
 
 Chef::Log.info("old replica set=#{old_replset_id}, new replica set=#{new_replset_id}")
