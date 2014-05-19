@@ -7,41 +7,28 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# include_recipe 'mongodb::mongo_gem'
-#
-# node.override['mongodb'] = {
-#      "config" => {
-#        "dbpath" => "/data/mongodb",
-#        "logpath" => "/data/log/mongodb/mongodb.log",
-#        "bind_ip" => "0.0.0.0",
-#        "replSet" => "KLReplicaSet",
-#        "port" => "27017"
-#     },
-#     "ruby_gems" => { :mongo => nil,:bson_ext => nil }
-# }
-
-node.override['mongodb']['config']['replSet'] = "KLReplicaSet"
-# node.override['mongodb']['config']['dbpath'] = "/data/mongodb"
-# node.override['mongodb']['config']['logpath'] = "/data/log/mongodb/mongodb.log"
+node.override['mongodb']['config']['replSet'] = node[:mongodb][:replicaset_id]
 
 include_recipe "opsworks-rails-mongoid::default"
+include_recipe "opsworks-rails-mongoid::mongods"
 
-include_recipe "mongodb::mongodb_org_repo"
-include_recipe "mongodb::default"
+Chef::Log.info("new replica set=#{node[:mongodb][:replicaset_id]}")
 
 old_replset_id=nil
-
 replicaset_members=Chef::ResourceDefinitionList::OpsWorksORMHelper.replicaset_members(node)
 replicaset_members.each_with_index { |member, index|
-  Chef::Log.info("member.name=#{member['name']}")
-
   node_rs=Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace(member['name'], 27017)
-  old_replset_id = node_rs unless node_rs.to_s.empty?
+  next if node_rs.to_s.empty?
+  if !old_replset_id.to_s.empty? and !old_replset_id.to_s.eql?(node_rs.to_s)
+    # allocates random, time.now, replica set id for force reconfig
+    old_replset_id = Time.now.to_i
+    break
+  else
+    old_replset_id = node_rs
+  end
 }
 
-# old_replset_id=Chef::ResourceDefinitionList::OpsWorksORMHelper.find_keyspace(node['opsworks']['instance']['hostname'], 27017)
-new_replset_id=node['mongodb']['config']['replSet']
-
+new_replset_id=node[:mongodb][:replicaset_id]
 Chef::Log.info("old replica set=#{old_replset_id}, new replica set=#{new_replset_id}")
 mongods_rpl_filepath="/etc/mongods_rpl.js"
 template mongods_rpl_filepath do
@@ -64,7 +51,10 @@ execute "setup_mongods_rpl" do
   action :run
 end
 
-file "/etc/mongodb.conf" do
+dbconfig_file=node['mongodb']['dbconfig_file']
+Chef::Log.info("dbconfig_file=#{dbconfig_file}")
+
+file dbconfig_file do
   action :touch
   notifies :restart, "service[mongod]", :immediately
 end

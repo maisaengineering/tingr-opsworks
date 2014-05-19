@@ -15,27 +15,22 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     end
 
     layers.each do |layer|
-      Chef::Log.info("layer=#{layer}")
       instances = node['opsworks']['layers'][layer]['instances']
+      next if instances.nil?
       instances.each do |name, instance|
-        Chef::Log.info("name=#{name}, instance=#{instance}")
         if instance['status'] == 'online'
           Chef::Log.info("online instance=#{instance}")
           member = Chef::Node.new
-          new_name = "#{name}.localdomain"
           member.name(name)
           member.default['name'] = name
+          member.default['hostname']=name
           member.default['fqdn'] = instance['private_dns_name']
           member.default['ipaddress'] = instance['private_ip']
-          member.default['hostname'] = new_name
           member.default['priority'] = instance['private_ip'].gsub(/^.*\.(?=\d+)/, '').to_i/100.to_f
 
           # from mongodb overrides
           member.default['hidden'] = hidden_members.include?(name)
           member.default['arbiter'] = arbiter.include?(name)
-
-          Chef::Log.info("adding member to arr...#{member}")
-
           members << member
         end
       end
@@ -55,6 +50,7 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
     end
 
     begin
+      @keyspace=nil
       @db = Mongo::MongoClient.new(host, port).db('admin')
       cmd = BSON::OrderedHash.new
       cmd['replSetGetStatus'] = 1
