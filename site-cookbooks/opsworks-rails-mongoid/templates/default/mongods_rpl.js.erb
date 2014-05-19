@@ -3,7 +3,7 @@ var cfg = {
      "_id" : "<%= @new_replset_id %>",
      "members" : [
      <% @members.each_with_index do |member, index| -%>
-       { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= member['hidden']? 0 : member['priority'] %>, arbiterOnly:<%= member['arbiter']? true : false %>, "hidden" : <%= member['hidden'] || false %> },
+       { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= (member['hidden'] or member['arbiter'])? 0 : member['priority'] %>, arbiterOnly:<%= member['arbiter']? true : false %>, "hidden" : <%= member['hidden'] || false %> },
      <% end %>
      ]
 }
@@ -17,7 +17,7 @@ if(cfg === null){
        "_id" : "<%= @new_replset_id %>",
        "members" : [
        <% @members.each_with_index do |member, index| -%>
-         { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= member['hidden']? 0 : member['priority'] %>, arbiterOnly:<%= member['arbiter']? true : false %>, "hidden" : <%= member['hidden'] || false %> },
+         { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= (member['hidden'] or member['arbiter'])? 0 : member['priority'] %>, arbiterOnly:<%= member['arbiter']? true : false %>, "hidden" : <%= member['hidden'] || false %> },
        <% end %>
        ]
   }
@@ -25,7 +25,7 @@ if(cfg === null){
 }else {
   cfg.members = [
         <% @members.each_with_index do |member, index| -%>
-          { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= member['hidden']? 0 : member['priority'] %>, arbiterOnly:<%= member['arbiter']? true : false %>, "hidden" : <%= member['hidden'] || false %> },
+          { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= (member['hidden'] or member['arbiter'])? 0 : member['priority'] %>, arbiterOnly:<%= member['arbiter']? true : false %>, "hidden" : <%= member['hidden'] || false %> },
         <% end %>
        ];
 
