@@ -51,11 +51,7 @@ execute "setup_mongods_rpl" do
   action :run
 end
 
-dbconfig_file=node['mongodb']['dbconfig_file']
-Chef::Log.info("dbconfig_file=#{dbconfig_file}")
-dbconfig_file_2=node[:mongodb][:dbconfig_file]
-Chef::Log.info("dbconfig_file=#{dbconfig_file_2}")
-
+dbconfig_file=node[:mongodb][:dbconfig_file]
 file dbconfig_file do
   action :touch
   notifies :restart, "service[mongod]", :immediately

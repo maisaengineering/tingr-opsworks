@@ -41,7 +41,6 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
   end
 
   def self.find_keyspace(host="127.0.0.1", port=27017)
-    puts "requiring mongo..."
     begin
       require 'mongo'
       require 'bson'
