@@ -52,18 +52,15 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
   def self.replicaset_members(node)
     members = []
     hidden_members = []
+    arbiter=[]
     layers = [ node['opsworks']['instance']['layers'].first ]
 
     # from mongodb overrides
     unless node[:mongodb].nil?
       layers |= node[:mongodb][:layers].split(",") unless node[:mongodb][:layers].nil?
       hidden_members |= node[:mongodb][:hidden].split(",") unless node[:mongodb][:hidden].nil?
+      arbiter |= node[:mongodb][:arbiter].split(",") unless node[:mongodb][:arbiter].nil?
     end
-
-
-    Chef::Log.info("layers=#{layers.inspect}")
-
-    Chef::Log.info("hidden_members=#{hidden_members.inspect}")
 
     layers.each do |layer|
       Chef::Log.info("layer=#{layer}")
@@ -83,6 +80,7 @@ class Chef::ResourceDefinitionList::OpsWorksORMHelper
 
           # from mongodb overrides
           member.default['hidden'] = hidden_members.include?(name)
+          member.default['arbiter'] = arbiter.include?(name)
 
           Chef::Log.info("adding member to arr...#{member}")
 

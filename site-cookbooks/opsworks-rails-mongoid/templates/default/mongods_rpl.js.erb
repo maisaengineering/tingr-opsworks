@@ -3,7 +3,7 @@ var cfg = {
      "_id" : "<%= @new_replset_id %>",
      "members" : [
      <% @members.each_with_index do |member, index| -%>
-       { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= member['hidden']? 0 : member['priority'] %>, "hidden" : <%= member['hidden'] || false %> },
+       { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= member['hidden']? 0 : member['priority'] %>, arbiterOnly:<%= member['arbiter']? true : false %>, "hidden" : <%= member['hidden'] || false %> },
      <% end %>
      ]
 }
@@ -12,13 +12,24 @@ rs.initiate(cfg);
 
 use local;
 var cfg = db.system.replset.findOne( { "_id": "<%= @new_replset_id %>"} );
-cfg.members = [
-      <% @members.each_with_index do |member, index| -%>
-        { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= member['hidden']? 0 : member['priority'] %>, "hidden" : <%= member['hidden'] || false %> },
-      <% end %>
-     ];
+if(cfg === null){
+  cfg = {
+       "_id" : "<%= @new_replset_id %>",
+       "members" : [
+       <% @members.each_with_index do |member, index| -%>
+         { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= member['hidden']? 0 : member['priority'] %>, arbiterOnly:<%= member['arbiter']? true : false %>, "hidden" : <%= member['hidden'] || false %> },
+       <% end %>
+       ]
+  }
+  rs.initiate(cfg);
+}else {
+  cfg.members = [
+        <% @members.each_with_index do |member, index| -%>
+          { "_id" : <%= index %>, "host" : "<%= member['name'] %>:27017", "priority" : <%= member['hidden']? 0 : member['priority'] %>, arbiterOnly:<%= member['arbiter']? true : false %>, "hidden" : <%= member['hidden'] || false %> },
+        <% end %>
+       ];
 
-db.system.replset.update( { "_id": "<%= @new_replset_id %>" }, cfg );
+  db.system.replset.update( { "_id": "<%= @new_replset_id %>" }, cfg, { upsert: true } );
 
-// rs.reconfig(cfg,{force : true});
+}
 <% end %>
