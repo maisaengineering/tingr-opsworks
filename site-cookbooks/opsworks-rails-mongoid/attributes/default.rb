@@ -5,7 +5,7 @@ default['mongodb']['config']['dbpath'] = "/data/mongodb"
 default['mongodb']['config']['logpath'] = "/data/log/mongodb/mongodb.log"
 
 
-# AWS STACK CUSTOm JSON
+# AWS STACK CUSTOM JSON
 # {
 #    "opsworks":{
 #       "data_bags":{
