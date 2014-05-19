@@ -64,4 +64,7 @@ execute "setup_mongods_rpl" do
   action :run
 end
 
-include_recipe "mongodb::default"
+file "/etc/mongodb.conf" do
+  action :touch
+  notifies :restart, "service[mongod]", :immediately
+end
