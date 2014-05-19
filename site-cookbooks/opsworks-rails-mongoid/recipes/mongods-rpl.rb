@@ -57,11 +57,11 @@ template mongods_rpl_filepath do
   )
   action :create
   notifies :run, "execute[setup_mongods_rpl]", :immediately
-  notifies :stop, "service[mongod]", :immediately
-  notifies :start, "service[mongod]", :delayed
 end
 
 execute "setup_mongods_rpl" do
   command "mongo < #{mongods_rpl_filepath}"
   action :run
 end
+
+include_recipe "mongodb::default"
