@@ -53,6 +53,8 @@ end
 
 dbconfig_file=node['mongodb']['dbconfig_file']
 Chef::Log.info("dbconfig_file=#{dbconfig_file}")
+dbconfig_file_2=node[:mongodb][:dbconfig_file]
+Chef::Log.info("dbconfig_file=#{dbconfig_file_2}")
 
 file dbconfig_file do
   action :touch
