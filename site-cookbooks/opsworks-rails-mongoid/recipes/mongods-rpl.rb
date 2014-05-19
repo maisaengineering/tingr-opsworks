@@ -57,7 +57,8 @@ template mongods_rpl_filepath do
   )
   action :create
   notifies :run, "execute[setup_mongods_rpl]", :immediately
-  notifies :restart, "service[mongod]", :immediately
+  notifies :stop, "service[mongod]", :immediately
+  notifies :start, "service[mongod]", :delayed
 end
 
 execute "setup_mongods_rpl" do
