@@ -22,7 +22,7 @@ node[:deploy].each do |application, deploy|
       :environment => deploy[:rails_env],
       :replicaset_instances => replicaset_instances
     )
-    notifies :run, "execute[unicorn_restart]"
+    # notifies :run, "execute[unicorn_restart]"
     # only_if do
     #   File.exists?("#{deploy[:deploy_to]}") && File.exists?("#{deploy[:deploy_to]}/shared/config/")
     # end
