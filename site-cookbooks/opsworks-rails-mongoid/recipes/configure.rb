@@ -25,7 +25,7 @@ node[:deploy].each do |application, deploy|
   end
 
   execute "unicorn_restart" do
-    command "#{deploy[:shared_path]}/scripts/unicorn restart"
+    command "#{deploy[:deploy_to]}/shared/scripts/unicorn restart"
     action :nothing
   end
 
