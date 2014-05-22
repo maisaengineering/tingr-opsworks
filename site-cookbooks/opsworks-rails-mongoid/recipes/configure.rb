@@ -9,11 +9,12 @@
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
-  rails_env = new_resource.environment["RAILS_ENV"]
+  rails_env = deploy[:rails_env]
   replicaset_instances = node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"].keys.map{|server| "#{node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"][server]["private_ip"]}:27017" }
   Chef::Log.info("deploy... #{deploy}")
+  Chef::Log.info("deploy_to... #{deploy[:deploy_to]}")
+
   Chef::Log.info("rails_env... #{rails_env}")
-  Chef::Log.info("new_resource... #{new_resource}")
   Chef::Log.info("replicaset_instances... #{replicaset_instances}")
 
   Chef::Log.info("configuring #{deploy[:deploy_to]}/config/mongoid.yml")
