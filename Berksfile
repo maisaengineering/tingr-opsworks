@@ -4,6 +4,7 @@ cookbook 'build-essential'
 cookbook 'java'
 cookbook 'imagemagick'
 cookbook 'wkhtmltopdf', git: "https://github.com/bflad/chef-wkhtmltopdf.git"
+cookbook "yum", git: "https://github.com/opscode-cookbooks/yum.git", tag: "v3.2.0"
 
 cookbook 'opsworks-commons', '0.1.0', path: 'site-cookbooks/opsworks-commons'
 cookbook 'opsworks-rails-mongoid', path: 'site-cookbooks/opsworks-rails-mongoid'

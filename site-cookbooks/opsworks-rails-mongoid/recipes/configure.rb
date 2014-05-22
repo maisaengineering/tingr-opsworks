@@ -10,7 +10,8 @@
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
-  template "#{deploy[:current_path]}/config/mongoid.yml" do
+  Chef::Log.info("configuring #{release_path}/config/mongoid.yml")
+  template "#{release_path}/config/mongoid.yml" do
     source "mongoid.yml.erb"
     cookbook 'opsworks-rails-mongoid'
     mode "0660"
@@ -18,7 +19,7 @@ node[:deploy].each do |application, deploy|
     owner deploy[:user]
     replicaset_instances = node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"].keys.map{|server| "#{node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"][server]["private_ip"]}:27017" }
     variables(
-      :environment => deploy[:rails_env],
+      :environment => new_resource.environment["RAILS_ENV"],
       :replicaset_instances => replicaset_instances
     )
     notifies :run, "execute[unicorn_restart]"
