@@ -6,6 +6,26 @@
 #
 # All rights reserved - Do Not Redistribute
 
+# node[:deploy].each do |application, deploy|
+#
+#   Chef::Log.info("rails_env... #{rails_env}")
+#
+#   # execute "unicorn_restart" do
+#   #   command "#{deploy[:deploy_to]}/shared/scripts/unicorn restart"
+#   #   action :nothing
+#   # end
+#
+# end
+#
+# deploy_revision "/deploy/dir/" do
+#
+#   before_migrate do
+#     Chef::Log.info("inside before_migrate...before_migrate")
+#
+#   end
+# end
+
+
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
@@ -18,21 +38,25 @@ node[:deploy].each do |application, deploy|
   Chef::Log.info("replicaset_instances... #{replicaset_instances}")
 
   Chef::Log.info("configuring #{deploy[:deploy_to]}/config/mongoid.yml")
-  template "#{deploy[:deploy_to]}/config/mongoid.yml" do
-    source "mongoid.yml.erb"
-    cookbook 'opsworks-rails-mongoid'
-    mode "0660"
-    group deploy[:group]
-    owner deploy[:user]
-    variables(
-      :environment => rails_env,
-      :replicaset_instances => replicaset_instances
-    )
+  before_migrate do
+    Chef::Log.info("executing before migrate inside")
+    template "#{deploy[:deploy_to]}/shared/config/mongoid.yml" do
+      source "mongoid.yml.erb"
+      cookbook 'opsworks-rails-mongoid'
+      mode "0660"
+      group deploy[:group]
+      owner deploy[:user]
+      variables(
+        :environment => rails_env,
+        :replicaset_instances => replicaset_instances
+      )
+    end
   end
+
 
   Chef::Log.info("precompiling assets for #{rails_env}...")
   execute "rake assets:precompile" do
-    cwd deploy[:deploy_to]
+    cwd "#{deploy[:deploy_to]}/current"
     command "bundle exec rake assets:precompile"
     environment "RAILS_ENV" => rails_env
   end
