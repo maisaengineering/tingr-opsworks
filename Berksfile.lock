@@ -30,13 +30,13 @@
     "opsworks-commons": {
       "locked_version": "0.1.0",
       "git": "https://github.com/maisaengineering/opsworks.git",
-      "ref": "43c285394ba39df9e11d974ce5e32ecf0c156013",
+      "ref": "24c2cb242d3f3d4b8f41ccd9dd007e4332eddac4",
       "rel": "site-cookbooks/opsworks-commons"
     },
     "opsworks-rails-mongoid": {
       "locked_version": "0.1.0",
       "git": "https://github.com/maisaengineering/opsworks.git",
-      "ref": "43c285394ba39df9e11d974ce5e32ecf0c156013",
+      "ref": "24c2cb242d3f3d4b8f41ccd9dd007e4332eddac4",
       "rel": "site-cookbooks/opsworks-rails-mongoid"
     },
     "apt": {
