@@ -25,6 +25,9 @@
 #   end
 # end
 
+node[:before_migrate].each do |application, deploy|
+  Chef::Log.info("CB executing before migrate inside")
+end
 
 
 node[:deploy].each do |application, deploy|
@@ -38,20 +41,20 @@ node[:deploy].each do |application, deploy|
   Chef::Log.info("replicaset_instances... #{replicaset_instances}")
 
   Chef::Log.info("configuring #{deploy[:deploy_to]}/config/mongoid.yml")
-  deploy[:before_migrate] do
-    Chef::Log.info("executing before migrate inside")
-    template "#{deploy[:deploy_to]}/shared/config/mongoid.yml" do
-      source "mongoid.yml.erb"
-      cookbook 'opsworks-rails-mongoid'
-      mode "0660"
-      group deploy[:group]
-      owner deploy[:user]
-      variables(
-        :environment => rails_env,
-        :replicaset_instances => replicaset_instances
-      )
-    end
-  end
+  # deploy[:before_migrate] do
+  #   Chef::Log.info("executing before migrate inside")
+  #   template "#{deploy[:deploy_to]}/shared/config/mongoid.yml" do
+  #     source "mongoid.yml.erb"
+  #     cookbook 'opsworks-rails-mongoid'
+  #     mode "0660"
+  #     group deploy[:group]
+  #     owner deploy[:user]
+  #     variables(
+  #       :environment => rails_env,
+  #       :replicaset_instances => replicaset_instances
+  #     )
+  #   end
+  # end
 
 
   Chef::Log.info("precompiling assets for #{rails_env}...")
