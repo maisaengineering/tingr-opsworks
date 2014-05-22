@@ -9,6 +9,13 @@
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
+  rails_env = new_resource.environment["RAILS_ENV"]
+  replicaset_instances = node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"].keys.map{|server| "#{node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"][server]["private_ip"]}:27017" }
+
+  Chef::Log.info("deploy... #{deploy}")
+  Chef::Log.info("rails_env... #{rails_env}")
+  Chef::Log.info("release_path... #{release_path}")
+  Chef::Log.info("replicaset_instances... #{replicaset_instances}")
 
   Chef::Log.info("configuring #{release_path}/config/mongoid.yml")
   template "#{release_path}/config/mongoid.yml" do
@@ -17,17 +24,22 @@ node[:deploy].each do |application, deploy|
     mode "0660"
     group deploy[:group]
     owner deploy[:user]
-    replicaset_instances = node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"].keys.map{|server| "#{node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"][server]["private_ip"]}:27017" }
     variables(
-      :environment => new_resource.environment["RAILS_ENV"],
+      :environment => rails_env,
       :replicaset_instances => replicaset_instances
     )
-    notifies :run, "execute[unicorn_restart]"
   end
 
-  execute "unicorn_restart" do
-    command "#{deploy[:deploy_to]}/shared/scripts/unicorn restart"
-    action :nothing
+  Chef::Log.info("precompiling assets for #{rails_env}...")
+  execute "rake assets:precompile" do
+    cwd release_path
+    command "bundle exec rake assets:precompile"
+    environment "RAILS_ENV" => rails_env
   end
+
+  # execute "unicorn_restart" do
+  #   command "#{deploy[:deploy_to]}/shared/scripts/unicorn restart"
+  #   action :nothing
+  # end
 
 end
