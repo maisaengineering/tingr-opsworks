@@ -1,0 +1,47 @@
+{
+  "sources": {
+    "build-essential": {
+      "locked_version": "2.0.2"
+    },
+    "java": {
+      "locked_version": "1.22.0"
+    },
+    "imagemagick": {
+      "locked_version": "0.2.3"
+    },
+    "wkhtmltopdf": {
+      "locked_version": "0.2.0",
+      "git": "https://github.com/bflad/chef-wkhtmltopdf.git",
+      "ref": "c0b92da459a38b6bdd507f09142b142790b7196f"
+    },
+    "opsworks-commons": {
+      "path": "./site-cookbooks/opsworks-commons"
+    },
+    "opsworks-rails-mongoid": {
+      "path": "./site-cookbooks/opsworks-rails-mongoid"
+    },
+    "mongodb": {
+      "locked_version": "0.16.0",
+      "git": "https://github.com/edelight/chef-mongodb.git",
+      "ref": "87fa1133b986848e88d4cc24cea8b4804bf5e035"
+    },
+    "aws": {
+      "locked_version": "2.2.2"
+    },
+    "apt": {
+      "locked_version": "2.4.0"
+    },
+    "yum": {
+      "locked_version": "3.2.0"
+    },
+    "python": {
+      "locked_version": "1.4.6"
+    },
+    "yum-epel": {
+      "locked_version": "0.3.6"
+    },
+    "runit": {
+      "locked_version": "1.5.10"
+    }
+  }
+}
