@@ -14,11 +14,10 @@
       "git": "https://github.com/bflad/chef-wkhtmltopdf.git",
       "ref": "c0b92da459a38b6bdd507f09142b142790b7196f"
     },
-    "opsworks-commons": {
-      "path": "./site-cookbooks/opsworks-commons"
-    },
-    "opsworks-rails-mongoid": {
-      "path": "./site-cookbooks/opsworks-rails-mongoid"
+    "yum": {
+      "locked_version": "3.2.0",
+      "git": "https://github.com/opscode-cookbooks/yum.git",
+      "ref": "78eeb23c64f3d40a6c4c8d92ff83614799b129cd"
     },
     "mongodb": {
       "locked_version": "0.16.0",
@@ -28,11 +27,20 @@
     "aws": {
       "locked_version": "2.2.2"
     },
+    "opsworks-commons": {
+      "locked_version": "0.1.0",
+      "git": "https://github.com/maisaengineering/opsworks.git",
+      "ref": "43c285394ba39df9e11d974ce5e32ecf0c156013",
+      "rel": "site-cookbooks/opsworks-commons"
+    },
+    "opsworks-rails-mongoid": {
+      "locked_version": "0.1.0",
+      "git": "https://github.com/maisaengineering/opsworks.git",
+      "ref": "43c285394ba39df9e11d974ce5e32ecf0c156013",
+      "rel": "site-cookbooks/opsworks-rails-mongoid"
+    },
     "apt": {
       "locked_version": "2.4.0"
-    },
-    "yum": {
-      "locked_version": "3.2.0"
     },
     "python": {
       "locked_version": "1.4.6"
