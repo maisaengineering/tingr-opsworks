@@ -25,7 +25,7 @@
 #   end
 # end
 
-node[:before_migrate].each do |application, deploy|
+before_migrate do
   Chef::Log.info("CB executing before migrate inside")
 end
 
