@@ -38,7 +38,7 @@ node[:deploy].each do |application, deploy|
   Chef::Log.info("replicaset_instances... #{replicaset_instances}")
 
   Chef::Log.info("configuring #{deploy[:deploy_to]}/config/mongoid.yml")
-  before_migrate do
+  deploy[:before_migrate] do
     Chef::Log.info("executing before migrate inside")
     template "#{deploy[:deploy_to]}/shared/config/mongoid.yml" do
       source "mongoid.yml.erb"
