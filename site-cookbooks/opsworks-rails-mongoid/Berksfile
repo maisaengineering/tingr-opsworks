@@ -1,3 +1,5 @@
 site :opscode
 
 metadata
+
+cookbook "deploy", git: "git@github.com:aws/opsworks-cookbooks.git", branch: "release-chef-11.10", rel: "opsworks-cookbooks/deploy"
