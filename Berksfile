@@ -11,6 +11,8 @@ cookbook "aws", '~> 2.2.0'
 
 cookbook "opsworks-commons", git: "https://github.com/maisaengineering/opsworks.git", rel: "site-cookbooks/opsworks-commons"
 cookbook "opsworks-rails-mongoid", git: "https://github.com/maisaengineering/opsworks.git", rel: "site-cookbooks/opsworks-rails-mongoid"
+cookbook "packages", git: "https://github.com/maisaengineering/opsworks.git", rel: "site-cookbooks/packages"
+
 
 cookbook "opsworks_delayed_job", git: "https://github.com/joeyAghion/opsworks_delayed_job.git", ref: "b7bbd3aea5c1083f93fdcb2d1788dacbcfe523e5"
 
