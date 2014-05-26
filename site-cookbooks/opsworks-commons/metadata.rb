@@ -13,3 +13,4 @@ depends 'imagemagick'
 depends 'wkhtmltopdf'
 
 depends 'aws'
+depends 'magic_shell'

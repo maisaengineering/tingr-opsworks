@@ -13,3 +13,4 @@ cookbook "opsworks-commons", git: "https://github.com/maisaengineering/opsworks.
 cookbook "opsworks-rails-mongoid", git: "https://github.com/maisaengineering/opsworks.git", rel: "site-cookbooks/opsworks-rails-mongoid"
 
 cookbook "opsworks_delayed_job", git: "https://github.com/maisaengineering/opsworks_delayed_job.git"
+cookbook "magic_shell", "~> 1.0.0"

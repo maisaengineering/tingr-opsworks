@@ -27,3 +27,12 @@ Chef::Log.info("...done => #{ENV["AWS_KEY"]}, #{ENV["AWS_SECRET"]}")
 #     ENV["AWS_SECRET"] = "#{aws['aws_secret_access_key']}"
 #   end
 # end
+
+Chef::Log.info("exporting ENV vars via magic shell")
+magic_shell_environment 'AWS_KEY' do
+  value aws['aws_access_key_id']
+end
+
+magic_shell_environment 'AWS_SECRET' do
+  value aws['aws_secret_access_key']
+end
