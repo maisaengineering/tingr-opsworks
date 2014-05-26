@@ -10,19 +10,20 @@
 include_recipe "imagemagick"
 include_recipe "wkhtmltopdf"
 
-Chef::Log.info('Setting ENV vars from databag items')
-
+Chef::Log.info("setting ENV vars...")
 aws = data_bag_item('aws', 'main')
-Chef::Log.info("Setting AWS_KEY ENV var...#{aws['aws_access_key_id']}")
-ruby_block "set-env-aws-key" do
-  block do
-    ENV["AWS_KEY"] = "#{aws['aws_access_key_id']}"
-  end
-end
+ENV["AWS_KEY"] = "#{aws['aws_access_key_id']}"
+ENV["AWS_SECRET"] = "#{aws['aws_secret_access_key']}"
+Chef::Log.info("...done => #{ENV["AWS_KEY"]}, #{ENV["AWS_SECRET"]}")
 
-Chef::Log.info("Setting AWS_SECRET ENV var...#{aws['aws_access_key_id']}")
-ruby_block "set-env-aws-secret" do
-  block do
-    ENV["AWS_SECRET"] = "#{aws['aws_secret_access_key']}"
-  end
-end
+# ruby_block "set-env-aws-key" do
+#   block do
+#     ENV["AWS_KEY"] = "#{aws['aws_access_key_id']}"
+#   end
+# end
+#
+# ruby_block "set-env-aws-secret" do
+#   block do
+#     ENV["AWS_SECRET"] = "#{aws['aws_secret_access_key']}"
+#   end
+# end
