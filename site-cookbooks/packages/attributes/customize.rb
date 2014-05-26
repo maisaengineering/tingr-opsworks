@@ -6,6 +6,8 @@
 # puts "CB echo...include attributes"
 # include_attribute "packages::customize"
 
+
+Chef::Log.info("CB echo 0...#{default[:packages]}")
 packages Mash.new unless attribute?("packages")
 
 Chef::Log.info("CB echo 1...#{default[:packages]}")
