@@ -1,4 +1,4 @@
-site :opscode
+source "https://api.berkshelf.com"
 
 cookbook 'build-essential'
 cookbook 'java'
@@ -11,3 +11,21 @@ cookbook "aws", '~> 2.2.0'
 
 cookbook "opsworks-commons", git: "https://github.com/maisaengineering/opsworks.git", rel: "site-cookbooks/opsworks-commons"
 cookbook "opsworks-rails-mongoid", git: "https://github.com/maisaengineering/opsworks.git", rel: "site-cookbooks/opsworks-rails-mongoid"
+
+cookbook "opsworks_delayed_job", git: "https://github.com/joeyAghion/opsworks_delayed_job.git", ref: "b7bbd3aea5c1083f93fdcb2d1788dacbcfe523e5"
+
+cookbook "deploy", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "deploy", tag: "release-chef-11.10"
+cookbook "dependencies", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "dependencies", tag: "release-chef-11.10"
+cookbook "apache2", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "apache2", tag: "release-chef-11.10"
+cookbook "mod_php5_apache2", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "mod_php5_apache2", tag: "release-chef-11.10"
+cookbook "nginx", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "nginx", tag: "release-chef-11.10"
+cookbook "ssh_users", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "ssh_users", tag: "release-chef-11.10"
+cookbook "opsworks_agent_monit", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "opsworks_agent_monit", tag: "release-chef-11.10"
+cookbook "passenger_apache2", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "passenger_apache2", tag: "release-chef-11.10"
+cookbook "unicorn", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "unicorn", tag: "release-chef-11.10"
+cookbook "opsworks_java", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "opsworks_java", tag: "release-chef-11.10"
+cookbook "gem_support", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "gem_support", tag: "release-chef-11.10"
+cookbook "opsworks_nodejs", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "opsworks_nodejs", tag: "release-chef-11.10"
+cookbook "scm_helper", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "scm_helper", tag: "release-chef-11.10"
+cookbook "opsworks_commons", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "opsworks_commons", tag: "release-chef-11.10"
+cookbook "opsworks_initial_setup", git: "git@github.com:aws/opsworks-cookbooks.git", rel: "opsworks_initial_setup", tag: "release-chef-11.10"
