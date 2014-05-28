@@ -19,6 +19,7 @@ node[:deploy].each do |application, deploy|
     replicaset_instances = node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"].keys.map{|server| "#{node["opsworks"]["layers"]["ds-mongo-rpl"]["instances"][server]["private_ip"]}:27017" }
     variables(
       :environment => deploy[:rails_env],
+      :database => node[:rails][:database] unless node[:rails].to_s.nil?,
       :replicaset_instances => replicaset_instances
     )
     notifies :run, "execute[unicorn_restart]"

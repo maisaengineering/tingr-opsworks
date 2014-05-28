@@ -7,13 +7,13 @@ defaults: &defaults
   <<: *defaults
   sessions:
     default:
-      database: app10691863
+      database: <%= @database %>
       hosts:
       <%  @replicaset_instances.each do |rs| -%>
         - <%= rs %>
       <% end -%>
     replica_set:
-      database: app10691863
+      database: <%= @database %>
       hosts:
       <%  @replicaset_instances.each do |rs| -%>
         - <%= rs %>
