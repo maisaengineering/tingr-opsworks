@@ -7,12 +7,15 @@
 # All rights reserved - Do Not Redistribute
 #
 
-data_bag_item('aws', 'envs').each do |key, value|
-  puts "key...#{key}"
-  puts "value...#{value}"
+envs = data_bag_item('aws', 'envs')
+unless envs.to_s.nil?
+  envs.each do |key, value|
+    puts "key...#{key}"
+    puts "value...#{value}"
 
-  magic_shell_environment key do
-    value value
+    magic_shell_environment key do
+      value value
+    end
   end
 end
 #
