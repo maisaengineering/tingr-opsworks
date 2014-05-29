@@ -14,4 +14,3 @@ cookbook "opsworks-rails-mongoid", git: "https://github.com/maisaengineering/ops
 
 cookbook "opsworks_delayed_job", git: "https://github.com/maisaengineering/opsworks_delayed_job.git"
 cookbook "magic_shell", "~> 1.0.0"
-cookbook "datadisk-chef", git: "https://github.com/maisaengineering/datadisk-chef.git"
