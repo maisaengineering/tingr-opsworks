@@ -9,15 +9,16 @@
 
 envs = data_bag_item('aws', 'envs')
 unless envs.to_s.nil?
-  envs.each do |key, value|
-    magic_shell_environment key do
-      value value
+  envs.each do |k, v|
+    magic_shell_environment k do
+      value v
     end
   end
 end
 #
 ENV["AWS_KEY"] = "#{envs['aws_access_key_id']}"
 ENV["AWS_SECRET"] = "#{envs['aws_secret_access_key']}"
+ENV["GMAIL_PASSWORD"] = "#{envs['GMAIL_PASSWORD']}"
 #
 # magic_shell_environment 'AWS_KEY' do
 #   value aws['aws_access_key_id']
