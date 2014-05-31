@@ -16,10 +16,6 @@ unless envs.to_s.nil?
   end
 end
 #
-ENV["AWS_KEY"] = "#{envs['aws_access_key_id']}"
-ENV["AWS_SECRET"] = "#{envs['aws_secret_access_key']}"
-ENV["GMAIL_PASSWORD"] = "#{envs['GMAIL_PASSWORD']}"
-#
 # magic_shell_environment 'AWS_KEY' do
 #   value aws['aws_access_key_id']
 # end
