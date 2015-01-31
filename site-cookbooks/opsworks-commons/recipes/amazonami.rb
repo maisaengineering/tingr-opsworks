@@ -10,6 +10,7 @@
 packages = [
   "libcurl",
   "libcurl-devel",
+  "libexif-devel"
 ]
 
 packages.each do |p|
