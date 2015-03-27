@@ -2,7 +2,7 @@ source "https://api.berkshelf.com"
 
 cookbook 'build-essential', git: "https://imaginationcoder@bitbucket.org/maisaengineering/build-essential.git", tag: "v2.0.2"
 cookbook 'java', git: "https://imaginationcoder@bitbucket.org/maisaengineering/java.git", tag: "v1.22.0"
-cookbook 'imagemagick', git: "git@github.com:someara/imagemagick.git", tag: "v0.2.3"
+cookbook 'imagemagick', git: "https://imaginationcoder@bitbucket.org/maisaengineering/imagemagick.git", tag: "v0.2.3"
 cookbook 'wkhtmltopdf', git: "git@github.com:bflad/chef-wkhtmltopdf.git", tag: "0.2.0"
 cookbook "yum", git: "git@github.com:opscode-cookbooks/yum.git", tag: "v3.2.0"
 
