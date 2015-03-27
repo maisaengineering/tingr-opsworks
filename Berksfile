@@ -1,16 +1,16 @@
 source "https://api.berkshelf.com"
 
-cookbook 'build-essential', git: "https://github.com/opscode-cookbooks/build-essential.git", tag: "v2.0.2"
-cookbook 'java', git: "https://github.com/socrata-cookbooks/java.git", tag: "v1.22.0"
-cookbook 'imagemagick', git: "https://github.com/someara/imagemagick.git", tag: "v0.2.3"
-cookbook 'wkhtmltopdf', git: "https://github.com/bflad/chef-wkhtmltopdf.git", tag: "0.2.0"
-cookbook "yum", git: "https://github.com/opscode-cookbooks/yum.git", tag: "v3.2.0"
+cookbook 'build-essential', git: "git@github.com:opscode-cookbooks/build-essential.git", tag: "v2.0.2"
+cookbook 'java', git: "git@github.com:socrata-cookbooks/java.git", tag: "v1.22.0"
+cookbook 'imagemagick', git: "git@github.com:someara/imagemagick.git", tag: "v0.2.3"
+cookbook 'wkhtmltopdf', git: "git@github.com:bflad/chef-wkhtmltopdf.git", tag: "0.2.0"
+cookbook "yum", git: "git@github.com:opscode-cookbooks/yum.git", tag: "v3.2.0"
 
-cookbook "mongodb", git: "https://github.com/edelight/chef-mongodb.git", ref: "87fa1133b986848e88d4cc24cea8b4804bf5e035"
-cookbook "aws", git: "https://github.com/opscode-cookbooks/aws.git", tag: "v2.2.2"
+cookbook "mongodb", git: "git@github.com:edelight/chef-mongodb.git", ref: "87fa1133b986848e88d4cc24cea8b4804bf5e035"
+cookbook "aws", git: "git@github.com:opscode-cookbooks/aws.git", tag: "v2.2.2"
 
-cookbook "opsworks-commons", git: "https://github.com/maisaengineering/opsworks.git", rel: "site-cookbooks/opsworks-commons"
-cookbook "opsworks-rails-mongoid", git: "https://github.com/maisaengineering/opsworks.git", rel: "site-cookbooks/opsworks-rails-mongoid"
+cookbook "opsworks-commons", git: "git@github.com:maisaengineering/opsworks.git", rel: "site-cookbooks/opsworks-commons"
+cookbook "opsworks-rails-mongoid", git: "git@github.com:maisaengineering/opsworks.git", rel: "site-cookbooks/opsworks-rails-mongoid"
 
-cookbook "opsworks_delayed_job", git: "https://github.com/maisaengineering/opsworks_delayed_job.git"
+cookbook "opsworks_delayed_job", git: "git@github.com:maisaengineering/opsworks_delayed_job.git"
 cookbook "magic_shell", "~> 1.0.0"
