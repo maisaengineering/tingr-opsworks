@@ -10,7 +10,7 @@ depends 'apt'
 depends 'build-essential'
 depends 'java'
 depends 'imagemagick'
-depends 'wkhtmltopdf'
+# depends 'wkhtmltopdf'
 
 depends 'aws'
 depends 'magic_shell'

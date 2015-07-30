@@ -11,4 +11,4 @@ include_recipe 'build-essential::default'
 include_recipe 'java'
 
 include_recipe "imagemagick"
-include_recipe "wkhtmltopdf"
+# include_recipe "wkhtmltopdf"

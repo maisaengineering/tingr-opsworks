@@ -8,4 +8,4 @@
 #
 
 include_recipe "imagemagick"
-include_recipe "wkhtmltopdf"
+# include_recipe "wkhtmltopdf"
