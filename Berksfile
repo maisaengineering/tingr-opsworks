@@ -5,7 +5,6 @@ cookbook 'build-essential', '~> 3.2.0'
 cookbook 'yum', '= 4.2.0'
 cookbook 'yum-epel', '= 0.7.1'
 cookbook 'iptables', '1.0.0'
-cookbook 'ming', '=1.2.3'
 
 cookbook 'java', git: "https://imaginationcoder@bitbucket.org/maisaengineering/java.git", tag: "v1.22.0"
 cookbook 'imagemagick', git: "https://imaginationcoder@bitbucket.org/maisaengineering/imagemagick.git", tag: "v0.2.3"
