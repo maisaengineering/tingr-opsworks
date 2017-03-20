@@ -1,8 +1,7 @@
 source "https://api.berkshelf.com"
 cookbook 'apt', '= 3.0.0'
-cookbook 'ohai', '= 3.0.1'
+cookbook 'build-essential', '~> 3.2.0'
 
-cookbook 'build-essential', git: "https://imaginationcoder@bitbucket.org/maisaengineering/build-essential.git", tag: "v2.0.2"
 cookbook 'java', git: "https://imaginationcoder@bitbucket.org/maisaengineering/java.git", tag: "v1.22.0"
 cookbook 'imagemagick', git: "https://imaginationcoder@bitbucket.org/maisaengineering/imagemagick.git", tag: "v0.2.3"
 cookbook "yum", git: "https://imaginationcoder@bitbucket.org/maisaengineering/yum.git", tag: "v3.2.0"
